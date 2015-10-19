@@ -1,7 +1,7 @@
 # MPproc
 MP processing toolbox (Matlab)
 
-To process a new MP deployment copy templates/MP_processing_worksheet.m to your data directory and start from there.
+To process a new MP deployment copy [templates/MP_processing_worksheet.m](templates/MP_processing_worksheet.m) to your data directory and start from there.
 
 The toolbox should contain all functions necessary to run the basic processing.
 
