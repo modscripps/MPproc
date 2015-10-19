@@ -1,0 +1,1 @@
+function [b,a]=MHAButter(zs,zc,str)%[b,a]=function MHAButter(zs,zc)%Return the coefficients for a fourth-order Butterworth filter for data sampled%at the interval zs, and cutoff scale zc.  If 'high' is passed as the third argument,%The filter is high-pass.  (modified 12/19/01)fn=1/2/zs;fc=1/zc;if nargin > 2    [b,a]=butter(4,fc/fn,str);else    [b,a]=butter(4,fc/fn);end

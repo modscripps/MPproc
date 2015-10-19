@@ -1,0 +1,16 @@
+Helpful hints on digesting the barnes data....
+
+1.  Place all the CNV files into one folder.
+2.  Open up barnes2struct3.m
+3.  change the path to the appropriate folder.
+4.  Save and then run by typing barnes2struct3!
+5.  You get two output workspaces....raw and CTD structure data. 
+6.  barnes20031118.mat is automatically loaded into the workspace.
+7.  You need to determine the size of the p, s and t matrices.  (rows, columns)
+8.  Run barneyfilt.m on the structure to grid the data.
+9.  The output barnes matrix is now gridded.
+10.  Graph using ctdmultiplot5(barnes, col)  where col is the column you want to look at.
+
+REALLY CONFUSED?
+
+CAll my cell at 516.581.2133
