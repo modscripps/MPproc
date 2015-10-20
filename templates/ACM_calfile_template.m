@@ -63,6 +63,12 @@ else
   IsAQD = 0;
 end
 
+% Any velocity sensor present?
+if strncmp(info.VELsensor.sn,'None',4)
+  VelSensor = 0;
+else
+  VelSensor = 1;
+end
 
 documentation = ['ACM cal file for acm S/N ' serial_ID...
                  ', which was on profiler S/N ' sn...
@@ -70,6 +76,7 @@ documentation = ['ACM cal file for acm S/N ' serial_ID...
                  cruise '.' sprintf('\n')...
                  'Additional comments:'];
 
+if VelSensor
 if ~IsAQD % FSI ACM
 
   % Magnetic bias and scales.  From acm_corr.m
@@ -138,6 +145,23 @@ elseif IsAQD % Nortek Aquadopp
   load(LoadName,'ac')
   compass_bias = ac.bias_angles(:)';
   
+end
+elseif ~VelSensor
+  % create face variables
+   % Create some FSI dummies for AQDP processing
+  Hx_bias  = NaN;
+  Hx_range = NaN;
+  Hy_bias  = NaN;
+  Hy_range = NaN;
+  
+  dir_sign = NaN;
+  Vab_bias = NaN;
+  Vcd_bias = NaN;
+  Vef_bias = NaN;
+  Vgh_bias = NaN;
+  velocity_scale = NaN;
+  wag_factor = NaN;
+  compass_bias = NaN;
 end
 
 

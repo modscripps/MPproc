@@ -83,6 +83,15 @@ else
   IsFSIACM  = 1;
 end
 
+% Any velocity sensor at all?
+if strncmp(ACM_id,'None',4)
+  VelSensor = 0;
+  IsFSIACM = 0;
+  IsAQDP = 0;
+else
+  VelSensor = 1;
+end
+
 % input/output directories.
 mpdatadir = MP_basedatadir(info);
 direc  = fullfile(mpdatadir,'mat');
@@ -175,7 +184,9 @@ else
     pause(2)
   end
 end
+
 % ACM
+if VelSensor
 if exist(acm_cal_filename,'file')
   load(acm_cal_filename);
 else
@@ -184,6 +195,7 @@ else
   while (findobj('type','figure','tag','msgwin'))
     pause(2)
   end
+end
 end
 
 fprintf(fid,'\n CTD calibration filename = %s\n',ctd_cal_filename);
@@ -375,29 +387,7 @@ for h = 1:length(stas) % loop over all profiles
   ctemp = MP_edit(t_bounds,3,ctemp);
   ccond = MP_edit(c_bounds,3,ccond);
   
-  
-  %------------------------------------------------------------------------
-  % FIX START
-  % Look for blocks of bad acm data. Only do this for sn104 T1 sp14 for
-  % now, there are some profiles with periods with crappy data.
-  % Identify by low-passed difference of V components above threshold and
-  % then nan out data later
-  if strcmp(cruise,'sp14') && strcmp(mooring,'T1') && strcmp(sn,'104')
-    dvthreshold = 200;
-    lpdVab = g_lowpass(abs(diffs(Vab)),1/10,2);
-    badab = lpdVab>dvthreshold;
-    lpdVcd = g_lowpass(abs(diffs(Vcd)),1/10,2);
-    badcd = lpdVcd>dvthreshold;
-    lpdVef = g_lowpass(abs(diffs(Vef)),1/10,2);
-    badef = lpdVef>dvthreshold;
-    lpdVgh = g_lowpass(abs(diffs(Vgh)),1/10,2);
-    badgh = lpdVgh>dvthreshold;
-    
-    badV = badab+badcd+badef+badgh;
-    badV = badV>2; % at least in three components
-  end
-  % FIX END
-  %------------------------------------------------------------------------
+
   
   
   % Tag ACM path current data very near zero as bad. This is done to
@@ -430,6 +420,10 @@ for h = 1:length(stas) % loop over all profiles
   Vgh   = MP_edit(vel_bounds,11,Vgh);
   aHx   = MP_edit(compass_bounds,11,aHx);
   aHy   = MP_edit(compass_bounds,11,aHy);
+  aHz   = MP_edit(compass_bounds,11,aHz);
+  aTx   = MP_edit(tilt_bounds,11,aTx);
+  aTy   = MP_edit(tilt_bounds,11,aTy);
+  
   end % FSIACM only
   %    [epres]=MP_edit(p_bounds,1,epres);
   
@@ -538,25 +532,7 @@ for h = 1:length(stas) % loop over all profiles
   end
   % FIX END
   %**********************************************************************
-  
-  %------------------------------------------------------------------------
-  % FIX START
-  % Blank out bad ACM data
-  if 0
-  if strcmp(cruise,'sp14') && strcmp(mooring,'T1') && strcmp(sn,'104')
-    badV = logical(badV);
-    Vab(badV) = NaN;
-    Vcd(badV) = NaN;
-    Vef(badV) = NaN;
-    Vgh(badV) = NaN;
-    aHx(badV) = NaN;
-    aHy(badV) = NaN;
-    aTx(badV) = NaN;
-    aTy(badV) = NaN;
-  end
-  end
-  % FIX END
-  %------------------------------------------------------------------------
+
   
   
   % Now calculate the velocity in instrument and geographic coordinates
@@ -703,6 +679,8 @@ for h = 1:length(stas) % loop over all profiles
   [startc,endc,starta,enda,dpdt] = MP_align_ctdacm(cpres(:),Vz,ctdsamplerate);
   elseif IsAQDP
   [startc,endc,dpdt] = MP_align_ctd(cpres(:),ctdsamplerate);
+  else
+  [startc,endc,dpdt] = MP_align_ctd(cpres(:),ctdsamplerate);
   end
 
   % Find the CTD scans that correspond to each pressure interval
@@ -842,6 +820,16 @@ for h = 1:length(stas) % loop over all profiles
       Txave(j)   = NaN;
       Tyave(j)   = NaN;
       end
+      end
+      
+      if VelSensor==0
+      uave(j) = NaN;
+      vave(j) = NaN;
+      wave(j) = NaN;
+
+      Headave(j) = NaN;
+      Txave(j)   = NaN;
+      Tyave(j)   = NaN;
       end
       
 
