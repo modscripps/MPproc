@@ -1778,7 +1778,12 @@ switch cruise
                 info.start_yday=yearday(25,8,2012,0,0,0);
                 info.end_yday=yearday(12,1,2014,0,0,0)+365+365;
                 
-                info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                % Model Used: 	IGRF12
+                % Latitude: 	9.6444° S
+                % Longitude: 	169.8154° W
+                % Date 	Declination
+                % 2013-03-01 	10.64° E  changing by  0.02° E per year 
+                info.magvar=10.64;
                 
                 info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%CHECK
                 info.VELsensor=VELsensorinfo_MP('1605'); %CHECK
