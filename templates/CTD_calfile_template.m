@@ -15,14 +15,14 @@
 
 %% Determine output path and filename
 
-mpdatadir = MPbasedatadirFCN2(info);
+mpdatadir = MP_basedatadir(info);
 flnm      = ['ctd_calfile_' cruise 'sn' sn];
 outfile   = fullfile(mpdatadir,'cal',flnm);
 
 
 %% Gather sensor information.
 
-info = MPdeploymentinfoFCN(sn,cruise,mooring);
+info = MP_deploymentinfo(sn,cruise,mooring);
 
 %This file must set the following parameters (shown with nominal values),
 %and store them in a file.
