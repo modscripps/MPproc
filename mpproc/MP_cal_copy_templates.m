@@ -21,7 +21,7 @@ sn        = info.sn;
 % Get the template path
 template_path = which('MP_mag_pgrid.m');
 xi = strfind(template_path,filesep);
-template_path = fullfile(template_path(1:xi(end)),'templates/');
+template_path = fullfile(template_path(1:xi(end-1)),'templates/');
 
 ACM_calfile = fullfile(mpdatadir,'cal',...
                        sprintf('make_acm_calfile_%s_sn%s.m',cruise,sn));
