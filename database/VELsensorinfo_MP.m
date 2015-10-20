@@ -196,6 +196,18 @@ switch sn
         therecord.comments={''};
 
         VELsensorinfo.records{1}=therecord;
+        
+  case 'None'
+        VELsensorinfo.type='None';
+        VELsensorinfo.owner=[];
+        %Here we fill in the history of the sensor
+        therecord.date={};
+        therecord.what={};
+        therecord.host={};
+        therecord.comments={};
+
+        VELsensorinfo.records{1}=therecord;
+        
 
     otherwise,
         error('Unknown VELsensor SN. Please edit VELsensorinfo_MP.m')
