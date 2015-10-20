@@ -25,7 +25,8 @@ ax = MySubplot(.1,.1,0.03,.1,.1,0.03,1,4);
 axes(ax(1))
 plot((MP.engtime(:,c)-MP.engtime(itime,c))*24,MP.epres(:,c))
 title([MP.info.cruise ', SN ' MP.info.sn ', profile#' num2str(MP.id(c)) ', yday ' num2str(MP.yday(c))])
-xtloff
+set(gca,'xticklabel',[])
+
 xlim([0 max((MP.engtime(:,c)-MP.engtime(itime,c))*24)])
 ylabel('dbar')
 SubplotLetter('pres',.01,.5)
@@ -36,7 +37,8 @@ axes(ax(2))
 %plot((MP.engtime(:,c)-MP.engtime(itime,c))*24,MP.ecurr(:,c))
 %smooth ecurr first
 plot((MP.engtime(:,c)-MP.engtime(itime,c))*24,CenteredConv(MP.ecurr(:,c),1,nsm))
-xtloff
+set(gca,'xticklabel',[])
+
 ylabel('mA')
 ylim([0 700])
 xlim([0 max((MP.engtime(:,c)-MP.engtime(itime,c))*24)])
@@ -49,7 +51,7 @@ grid on
 % Voltage
 axes(ax(3))
 plot((MP.engtime(:,c)-MP.engtime(itime,c))*24,MP.evolt(:,c))
-xtloff
+set(gca,'xticklabel',[])
 ylabel('V')
 xlim([0 max((MP.engtime(:,c)-MP.engtime(itime,c))*24)])
 SubplotLetter('volt',.01,.9)
