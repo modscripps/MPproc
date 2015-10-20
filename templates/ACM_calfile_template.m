@@ -154,3 +154,5 @@ acm_cal = load(outfile);
 
 eval(['save ',outfile,' serial_ID Hx_bias Hx_range Hy_bias Hy_range dir_sign compass_bias Vab_bias Vcd_bias ',...
     'Vef_bias Vgh_bias velocity_scale wag_factor documentation acm_cal TiltCorrection']);
+
+fprintf(1,'acm cal file written\n');

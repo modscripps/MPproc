@@ -92,3 +92,5 @@ eval(['save ',outfile,' serial_ID c_coefs p_coefs t_coefs tlag CTpar doxcal docu
 ctd_cal=load(outfile);
 
 eval(['save ',outfile,' serial_ID c_coefs p_coefs t_coefs tlag CTpar doxcal documentation ctd_cal']);
+
+fprintf(1,'ctd cal file written\n');
