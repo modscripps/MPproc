@@ -1798,15 +1798,15 @@ switch cruise
                 info.lat=-8-13.674/60;
                 info.lon=-168-40.620/60;
                 info.H=4925;
-                info.dates={'8/23/2012-1/13/2014'};
+                info.dates={'8/25/2012-1/12/2014'};
                 info.pmin=3600;
                 info.pmax=4974;
                 info.dt=17/24+24/60/24; %17-hour 24 minute profile interval;
                 
                 info.n_profiles=697;
                 info.year=2012;
-                info.start_yday=yearday(25,8,2012);
-                info.end_yday=yearday(13,1,2014)+365+365;
+                info.start_yday=yearday(25,8,2012,0,0,0);
+                info.end_yday=yearday(12,1,2014,9,0,0)+365+365;
                 
                 % Model Used: 	IGRF12
                 % Latitude: 	8.2279° S
@@ -1816,7 +1816,7 @@ switch cruise
                 info.magvar=10.37;
                 
                 info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
-                info.VELsensor=VELsensorinfo_MP('1605'); %
+                info.VELsensor=VELsensorinfo_MP('None'); %
                 
                 info.totdist=NaN; %From depth_history
                 info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
