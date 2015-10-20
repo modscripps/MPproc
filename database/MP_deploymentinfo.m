@@ -1769,7 +1769,7 @@ switch cruise
                 info.lon=-169-48.924/60;
                 info.H=4582;
                 info.dates={'8/25/2012-1/12/2014'};
-                info.pmin=3400;
+                info.pmin=3650;
                 info.pmax=4701;
                 info.dt=17/24+24/60/24; %17-hour 24 minute profile interval
                 
@@ -1808,7 +1808,12 @@ switch cruise
                 info.start_yday=yearday(25,8,2012);
                 info.end_yday=yearday(13,1,2014)+365+365;
                 
-                info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                % Model Used: 	IGRF12
+                % Latitude: 	8.2279° S
+                % Longitude: 	168.6770° W
+                % Date 	Declination
+                % 2013-03-01 	10.37° E  changing by  0.02° E per year 
+                info.magvar=10.37;
                 
                 info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
                 info.VELsensor=VELsensorinfo_MP('1605'); %
