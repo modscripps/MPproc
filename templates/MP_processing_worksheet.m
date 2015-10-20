@@ -297,13 +297,14 @@ MP_mag_pgrid(sn,cruise,mooring,1:info.n_profiles)
 % Determine a representative one to plot.
 figure
 for wh = [31];
-  MP1 = MP_makeCTD(info,wh)
+  MP1 = MP_makeCTD(info,wh);
   ax  = MP_basic_eng_plot(MP1,1);
 end
 
 %% Print engineering plot
-WritePDF(sprintf('basiceng_%s_sn%s_prof%d',info.cruise,info.sn,wh(1)),...  
-         fullfile(mpdatadir,'plots'))
+PrintName = fullfile(mpdatadir,'plots',...
+  sprintf('basiceng_%s_sn%s_prof%d',info.cruise,info.sn,wh(1)));
+gpng(PrintName)
 
 %% Create data structure with all gridded data
 % Get raw and engineering data too
