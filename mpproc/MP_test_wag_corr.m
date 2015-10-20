@@ -159,24 +159,27 @@ plot(asnum,Vyhi,asnum,Vyhi-wag,asnum,wag)
 title(titlestr)
 xlim([smin smax])
 ylabel('[vhi, wag] / cm/s')
-xtloff
+set(gca,'xticklabel',[])
 axes(ax(2))
 plot(asnum,Speed,asnum,speed)
 xlim([smin smax])
 ylabel('speed / cm/s')
 %plot(asnum,Reldir,asnum,reldir)
-xtloff
+set(gca,'xticklabel',[])
+
 axes(ax(3))
 plot(asnum,continuousdir(Reldir),asnum,continuousdir(reldir))
 %plot(asnum,Reldir,asnum,reldir)
 xlim([smin smax])
 ylabel('dir / rads')
-xtloff
+set(gca,'xticklabel',[])
+
 axes(ax(4))
 plot(asnum,Veast,asnum,veast)
 xlim([smin smax])
 ylabel('u / m/s')
-xtloff
+set(gca,'xticklabel',[])
+
 axes(ax(5))
 plot(asnum,Vnorth,asnum,vnorth)
 xlim([smin smax])

@@ -45,7 +45,7 @@ slsh = filesep;
 textprogressbar('Reading files for summary:    ');
 
 for h=1:length(stas)
-  textprogressbar(h/stas*100);
+  textprogressbar(h/max(stas)*100);
   file=[MatDir slsh,'raw',sprintf('%4.4i',stas(h)),'.mat'];
   if exist(file,'file');
     eval(['load ',MatDir slsh,'raw',sprintf('%4.4i',stas(h)),'.mat']);

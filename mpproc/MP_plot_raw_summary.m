@@ -62,7 +62,8 @@ xl=xlim;
 if plottime==1
     datetick('x',1,'keeplimits')
 end
-xtloff
+set(gca,'xticklabel',[])
+
 axis ij
 grid
 %xlabel('Profile number')
@@ -78,7 +79,7 @@ xlim(xl)
 if plottime==1
     datetick('x',1,'keeplimits')
 end
-xtloff
+set(gca,'xticklabel',[]) 
 lg=legend(h,'DOWN','UP',3);
 set(lg,'fontsize',8)
 
@@ -89,7 +90,7 @@ xlim(xl)
 if plottime==1
     datetick('x',1,'keeplimits')
 end
-xtloff
+set(gca,'xticklabel',[]) 
 
 %6/06 change: plot negative vel for upcasts MHA
 axes(ax(4))
@@ -106,7 +107,7 @@ ylabel('Avg speed  dbar/s ')
 if plottime==1
     datetick('x',1,'keeplimits')
 end
-xtloff
+set(gca,'xticklabel',[]) 
 axes(ax(5))
 plot(varx,cum_dist/1000);
 xlim(xl)
