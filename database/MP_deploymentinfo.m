@@ -1737,6 +1737,87 @@ switch cruise
                 error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
         end %end nemo11b
         
+    case 'sp12monitor' %SP12monitor
+        switch sn
+            case '104',
+                info.lat=-9-5.448/60;
+                info.lon=-169 - 30.180/60;
+                info.H=4582;
+                info.dates={'8/24/2012-1/12/2014'};
+                info.pmin=3600;
+                info.pmax=4622;
+                info.dt=17/24+24/60/24; %17:24 interval
+                
+                info.n_profiles=nan;
+                info.year=2012;
+                info.start_yday=yearday(23,8,2012);
+                info.end_yday=yearday(12,1,2014)+365+365;
+                
+                info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                
+                info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                info.VELsensor=VELsensorinfo_MP('1605'); %
+                
+                info.totdist=NaN; %From depth_history
+                info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+                info.ballast.comments='tank ballast at APL; redeployed during SP12';
+                info.comments={''};
+                info.station='M7';
+                info.experiment='SamoanPassage';
+            case '103',
+                info.lat=-9-38.664/60;
+                info.lon=-169-48.924/60;
+                info.H=4582;
+                info.dates={'8/25/2012-1/12/2014'};
+                info.pmin=3400;
+                info.pmax=4701;
+                info.dt=17/24+24/60/24; %17-hour 24 minute profile interval
+                
+                info.n_profiles=696;
+                info.year=2012;
+                info.start_yday=yearday(25,8,2012,0,0,0);
+                info.end_yday=yearday(12,1,2014,0,0,0)+365+365;
+                
+                info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                
+                info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%CHECK
+                info.VELsensor=VELsensorinfo_MP('1605'); %CHECK
+                
+                info.totdist=NaN; %From depth_history
+                info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %CHECK
+                info.ballast.comments='Tank ballast at APL; redeployed during SP12';
+                info.comments={''};
+                info.station='M5';
+                info.experiment='SamoanPassage';
+            case '107',
+                info.lat=-8-13.674/60;
+                info.lon=-168-40.620/60;
+                info.H=4925;
+                info.dates={'8/23/2012-1/13/2014'};
+                info.pmin=3600;
+                info.pmax=4974;
+                info.dt=17/24+24/60/24; %17-hour 24 minute profile interval;
+                
+                info.n_profiles=697;
+                info.year=2012;
+                info.start_yday=yearday(25,8,2012);
+                info.end_yday=yearday(13,1,2014)+365+365;
+                
+                info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                
+                info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                info.VELsensor=VELsensorinfo_MP('1605'); %
+                
+                info.totdist=NaN; %From depth_history
+                info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+                info.ballast.comments='';
+                info.comments={''};
+                info.station='M6';
+                info.experiment='SamoanPassage';
+            otherwise,
+                error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
+        end %end sp12monitor
+        
     
     case 'sp14' % SP14
       switch sn
@@ -2126,7 +2207,435 @@ switch cruise
       otherwise
           error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
 
-      end % end sn
+      end % end sp14
+      
+  case 'TTIDE' %TTIDE
+        switch sn
+            case '104', %104
+                switch mooring
+                    case 'M3',
+                        info.lat=-41-21.505/60; %surveyed
+                        info.lon=148+ 46.052/60;
+                        %info.H=1000;
+                        %info.dates={'1/15/2015-1/24/2014'};
+                        info.pmin=70;
+                        info.pmax=980;
+                        info.dt=1.5/24; %continuous
+                        
+                        %info.n_profiles=123;
+                        info.year=2015;
+                        info.start_yday=yearday(15,1,2015,12,0,0);
+                        %info.end_yday=yearday(3,2,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        %info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        %info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        %info.ballast=ballastFCN(8.414,34.561,1029.26,528); %527.948	8.414	34.561	1029.260926
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+%                     case 'M6',
+%                         info.lat=-9-36.061/60; %surveyed
+%                         info.lon=-169 - 49.526/60;
+%                         info.H=4720;
+%                         info.dates={'2/7/2014-2/14/2014'};
+%                         info.pmin=3600;
+%                         info.pmax=4758;
+%                         info.dt=0; %continuous
+%                         
+%                         info.n_profiles=119;
+%                         info.year=2014;
+%                         info.start_yday=yearday(7,2,2014,20,0,0);
+%                         info.end_yday=yearday(14,2,2014);
+%                         
+%                         info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+%                         
+%                         info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+%                         info.VELsensor=VELsensorinfo_MP('1605'); %
+%                         
+%                         info.totdist=NaN; %From depth_history
+%                         info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+%                         info.ballast.comments='Western of three downstream moorings at P2';
+%                         info.comments={''};
+%                         info.station=mooring;
+%                         info.experiment='TTIDE';
+%                         
+%                     otherwise,
+%                         error('No mooring specified.')
+                        
+                end %end sn104, TTIDE
+%                    otherwise,
+%                        error('No mooring specified.')
+            case 'J1', %J1
+                switch mooring
+                    case 'A2',
+                        info.lat=-42-49.357/60; %surveyed
+                        info.lon=151+ 22.515/60;
+                        %info.H=1000;
+                        %info.dates={'1/15/2015-1/24/2014'};
+                        info.pmin=70;
+                        info.pmax=1817; %Handwriting looks like 1517
+                        info.dt=1.5/24; 
+                        
+                        %info.n_profiles=123;
+                        info.year=2015;
+                        info.start_yday=yearday(11,1,2015,09,0,0);
+                        %info.end_yday=yearday(3,2,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        %info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        %info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                        
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end snJ1, TTIDE
+            case 'J2', %J2
+                switch mooring
+                    case 'A3',
+                        info.lat=-42-37.842/60; %surveyed
+                        info.lon=150+ 37.568/60;
+                        info.H=4138;
+                        info.dates={'1/15/2015-3/2/2014'};
+                        info.pmin=70;
+                        info.pmax=1517; %NOTE DISCREPANCY with A2!
+                        info.dt=1.5/24; 
+                        
+                        info.n_profiles=85;
+                        info.year=2015;
+                        info.start_yday=yearday(15,1,2015,0,0,0);
+                        info.end_yday=yearday(21,1,2015,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end snJ2, TTIDE
+%                end
+            case 'J4', %J4
+                switch mooring
+                    case 'A4',
+                        info.lat=-42-02.042/60; %surveyed
+                        info.lon=150+ 39.058/60;
+                        info.H=4530;
+                        %info.dates={'1/13/2015-1/24/2014'};
+                        info.pmin=80;
+                        info.pmax=1517; 
+                        info.dt=1.5/24; %continuous
+                        
+                        info.n_profiles=39;
+                        info.year=2015;
+                        info.start_yday=yearday(13,1,2015,14,0,0);
+                        info.end_yday=yearday(15,1,2015,15,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end snJ4, TTIDE
+                
+            case '105', %105
+                switch mooring
+                    case 'M1',
+                        info.lat=-41-19.363/60; %surveyed
+                        info.lon=149+ 03.390/60;
+                        info.H=2357;
+                        info.dates={'1/15/2015-3/5/2014'};
+                        info.pmin=72;
+                        info.pmax=1380;
+                        info.dt=1.5/24; %continuous
+                        
+                        info.n_profiles=394;
+                        info.year=2015;
+                        info.start_yday=yearday(15,1,2015,03,0,0);
+                        info.end_yday=yearday(3,5,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); %wrong
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end sn105, TTIDE
+                     
+            case '103', %103
+                switch mooring
+                    case 'M1',
+                        info.lat=-41-19.363/60; %surveyed
+                        info.lon=149+ 03.390/60;
+                        info.H=2357;
+                        info.dates={'1/15/2015-2/14/2015'};
+                        info.pmin=1439; %Given Depth 1422m
+                        info.pmax=2362; %Given Depth 2330m
+                        info.dt=1.5/24; %continuous
+                        
+                        info.n_profiles=463;
+                        info.year=2015;
+                        info.start_yday=yearday(15,1,2015,03,0,0);
+                        info.end_yday=yearday(14,2,2015,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(2.5,34.6,1035.77,1770);
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end sn103, TTIDE
+                    
+            case 'J3', %J3
+                switch mooring
+                    case 'M2',
+                        info.lat=-41-19.775/60; %surveyed
+                        info.lon=148+ 54.297/60;
+                        %info.H=1000;
+                        %info.dates={'1/15/2015-1/24/2014'};
+                        info.pmin=72; %Given Depth 72m
+                        info.pmax=1342; %Given Depth 1327m
+                        info.dt=1.5/24; %continuous
+                        
+                        %info.n_profiles=123;
+                        info.year=2015;
+                        info.start_yday=yearday(15,1,2015,07,0,0);
+                        %info.end_yday=yearday(3,2,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        %info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        %info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end snJ3, TTIDE
+                
+            case '109', %109
+                switch mooring
+                    case 'M2',
+                        info.lat=-41-19.775/60; %surveyed
+                        info.lon=148+ 54.297/60;
+                        %info.H=1000;
+                        %info.dates={'1/15/2015-1/24/2014'};
+                        info.pmin=1384; %Given Depth 1369m
+                        info.pmax=1663; %Given Depth 1643m
+                        info.dt=0.5/24; %continuous
+                        
+                        %info.n_profiles=123;
+                        info.year=2015;
+                        info.start_yday=yearday(15,1,2015,07,0,0);
+                        %info.end_yday=yearday(3,2,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        %info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        %info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end sn109, TTIDE
+                
+            case 'H3', %H03
+                switch mooring
+                    case 'M4',
+                        info.lat=-43-03.225/60; %surveyed
+                        info.lon=148+ 29.780/60;
+                        info.H=2349;
+                        info.dates={'1/14/2015-3/6/2015'};
+                        info.pmin=75; 
+                        info.pmax=1195; 
+                        info.dt=1.5/24; %continuous
+                        
+                        info.n_profiles=682;
+                        info.year=2015;
+                        info.start_yday=yearday(14,1,2015,02,0,0);
+                        info.end_yday=yearday(3,6,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end snH03, TTIDE
+                
+            case '108', %108
+                switch mooring
+                    case 'M4',
+                        info.lat=-43-03.225/60; %surveyed
+                        info.lon=148+ 29.780/60;
+                        info.H=2349;
+                        info.dates={'1/14/2015-3/6/2015'};
+                        info.pmin=1197; 
+                        info.pmax=2350; 
+                        info.dt=1.5/24; %continuous
+                        
+                        info.n_profiles=1271;
+                        info.year=2015;
+                        info.start_yday=yearday(14,1,2015,02,0,0);
+                        info.end_yday=yearday(3,6,2014,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(6.7,34.46,1030.69,802); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end sn108, TTIDE
+                
+            case 'H2', %H02
+                switch mooring
+                    case 'M5',
+                        %Target Lat Lon
+                        info.lat=-42-57.844/60; %surveyed
+                        info.lon=148+ 22.491/60;
+                        info.H=1138;
+                        info.dates={'1/14/2015-3/7/2015'};
+                        info.pmin=75; 
+                        info.pmax=816; 
+                        info.dt=1.3333/24; 
+                        
+                        info.n_profiles=1065;
+                        info.year=2015;
+                        info.start_yday=yearday(13,1,2015,13,0,0);
+                        info.end_yday=yearday(7,3,2015,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(8.7,34.598,1028.855,445); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end snH02, TTIDE
+                
+                case '107', %107
+                switch mooring
+                    case 'M5',
+                        %Target Lat Lon
+                        info.lat=-42-57.844/60; %surveyed
+                        info.lon=148+ 22.491/60;
+                        info.H=1138;
+                        info.dates={'1/14/2015-3/7/2015'};
+                        info.pmin=837; 
+                        info.pmax=1120; 
+                        info.dt=30/60/24; %30-min
+                        
+                        info.n_profiles=2523;
+                        info.year=2015;
+                        info.start_yday=yearday(13,1,2015,13,0,0);
+                        info.end_yday=yearday(7,3,2015,0,0,0);
+                        
+                        info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+                        
+                        info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
+                        info.VELsensor=VELsensorinfo_MP('1605'); %
+                        
+                        info.totdist=NaN; %From depth_history
+                        info.ballast=ballastFCN(8.6,34.584,1028.983,471); 
+                        info.ballast.comments='';
+                        info.comments={''};
+                        info.station=mooring;
+                        info.experiment='TTIDE';
+                    
+                    otherwise,
+                        error('No mooring specified.')
+                        
+                end %end sn107, TTIDE
+                
+            otherwise,
+                error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
+        end %end TTIDE
       
   case 'ArcticMix15' % ArcticMix15
     switch sn
