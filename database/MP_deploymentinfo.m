@@ -1799,8 +1799,8 @@ switch cruise
                 info.lon=-168-40.620/60;
                 info.H=4925;
                 info.dates={'8/25/2012-1/12/2014'};
-                info.pmin=3600;
-                info.pmax=4974;
+                info.pmin=3990;
+                info.pmax=4980;
                 info.dt=17/24+24/60/24; %17-hour 24 minute profile interval;
                 
                 info.n_profiles=697;
