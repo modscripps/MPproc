@@ -194,9 +194,11 @@ for c = st:wh
 
     MP.datenum(iout) = a.startdaytime;
     
+    if isfield(a,'Txave')
     MP.pitch(1:length(a.Txave),iout) = a.Txave;
     MP.roll(1:length(a.Tyave),iout)  = a.Tyave;
-
+    end
+    
     % include profiling speed for diagnostics:
     MP.dpdtave(1:length(a.tave),iout) = a.dpdtave / 100;
 
