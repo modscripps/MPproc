@@ -2,10 +2,8 @@ function MP = MP_makeCTD(info,wh,get_eng,get_raw,get_raw_acm,get_nitrate,despiki
 
 % MP_MAKECTD Put gridded MP data into a CTD structure
 %
-%   MP = MP_makeCTD(INFO,WH,GET_ENG,GET_RAW,GET_RAW_ACM,GET_NITRATE)
+%   MP = MP_makeCTD(INFO,WH,GET_ENG,GET_RAW,GET_RAW_ACM,GET_NITRATE,DESPIKING)
 %   Put gridded MP ctd and velocity data into a CTD structure.
-%
-%   Despiking?
 %
 %   INPUT   info        - MP data structure
 %           wh          - Vector with first and last profile to be
