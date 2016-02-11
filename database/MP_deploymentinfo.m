@@ -124,6 +124,7 @@ switch cruise
                 
                 info.comments={'some profile speed problems'};
                 info.station='mp300';
+                info.experiment='AegeanSea';
             case '103',
                 info.lat=36.4030;
                 info.lon=25.1753;
@@ -147,6 +148,7 @@ switch cruise
                 info.ballast.comments='original ballast from McLane';
                 info.comments={'ballasted too light; failed to penetrate > 50 m after 9 days'};
                 info.station='mp430';
+                info.experiment='AegeanSea';
             otherwise,
                 disp 'I only know about 101, 102 and 103 in aeg04.'
         end %aeg04

@@ -18,12 +18,11 @@ function mpdatadir = MP_basedatadir(info)
 
 
 % SET YOUR PATH HERE
-basedatadir = '/Users/gunnar/scratch/sp_mp_processing/';
+% basedatadir = '/Users/gunnar/scratch/sp_mp_processing/';
 
 
 % Path on the server
-%basedatadir='/Volumes/Ahua/data_archive/WaveChasers-DataArchive/';
-
+basedatadir='/Volumes/Ahua/data_archive/WaveChasers-DataArchive/';
 
 % Path to current deployment                % e.g.
 mpdatadir = fullfile(basedatadir,...        % -------------
