@@ -820,7 +820,7 @@ switch cruise
                 
                 info.comments={''};
                 info.station='MP1';
-                info.experiment='scs07';
+                info.experiment='SouthChinaSea';
             case '102', %
                 info.lat=21+4.105/60; %Actual.
                 info.lon=116+30.324/60;
@@ -844,7 +844,7 @@ switch cruise
                 
                 info.comments={''};
                 info.station='MP2';
-                info.experiment='scs07';
+                info.experiment='SouthChinaSea';
             otherwise,
                 error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
         end %scs07
@@ -1062,7 +1062,7 @@ switch cruise
                 info.experiment='MendocinoEscarpment';
             case '104',
                 info.lat=40+19.204/60; %actual
-                info.lon=-126-3.516/60;ontere
+                info.lon=-126-3.516/60;
                 info.H=3700;
                 info.dates={'2/20/09-4/29/09'};
                 info.dt=1.5/24; %
@@ -1280,7 +1280,7 @@ switch cruise
                 %ballast (T,S,rho, P)
                 info.ballast=ballastFCN(3.4,34.3,1030.9,750); %102
                 info.comments={''};
-                info.station='MP-S';
+                info.station='MPS';
             case '103', %
                 info.lat=20+36.222/60;  %actual
                 info.lon=121+19.924/60;
@@ -1303,7 +1303,7 @@ switch cruise
                 info.ballast=ballastFCN(3.4,34.3,1030.9,750); %103
                 
                 info.comments={''};
-                info.station='MP-N';
+                info.station='MPN';
             otherwise,
                 error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
         end %iwise10
