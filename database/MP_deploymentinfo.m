@@ -820,6 +820,7 @@ switch cruise
                 
                 info.comments={''};
                 info.station='MP1';
+                info.experiment='scs07';
             case '102', %
                 info.lat=21+4.105/60; %Actual.
                 info.lon=116+30.324/60;
@@ -843,6 +844,7 @@ switch cruise
                 
                 info.comments={''};
                 info.station='MP2';
+                info.experiment='scs07';
             otherwise,
                 error(['I don''t show S/N ' sn ' as deployed during ' cruise '.'])
         end %scs07
