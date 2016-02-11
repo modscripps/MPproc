@@ -1,4 +1,4 @@
-function MP = MP_makeCTD(info,wh,get_eng,get_raw,get_raw_acm,get_nitrate)
+function MP = MP_makeCTD(info,wh,get_eng,get_raw,get_raw_acm,get_nitrate,despiking)
 
 % MP_MAKECTD Put gridded MP data into a CTD structure
 %
@@ -14,6 +14,7 @@ function MP = MP_makeCTD(info,wh,get_eng,get_raw,get_raw_acm,get_nitrate)
 %           get_raw     - Get raw ctd data (default 0)
 %           get_raw_acm - Get raw acm data (default 0)
 %           get_nitrate - Get nitrate data (default 0)
+%           despiking   - Run despiking (default 0)
 %       
 %   OUTPUT  MP - MP data structure in CTD format with lots of fields.
 %
@@ -48,6 +49,10 @@ end
 if nargin < 6
   get_nitrate = 0;
 end
+if nargin < 7
+  despiking = 0;
+end
+
 
 pref = 0;
 
@@ -312,7 +317,9 @@ end
 
 
 %% Add despiking if present
-MP = deSpike_gridded(MP);
+if despiking
+  MP = deSpike_gridded(MP);
+end
 
 
 %% Interpolate nitrate onto MP pressure grid.  Repeat for other eng quantities.
