@@ -659,7 +659,9 @@ for h = 1:length(stas) % loop over all profiles
     % AQDP: bound and spike edit
     FieldNames = {'u','v','w'};
     for i = 1:length(FieldNames)
-    a.(FieldNames{i})   = MP_edit(vel_bounds,11,a.(FieldNames{i}));
+      if length(a.dtnum)>11
+        a.(FieldNames{i}) = MP_edit(vel_bounds,11,a.(FieldNames{i}));
+      end
     end
     % also need to do hdg, pitch, roll
     

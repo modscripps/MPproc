@@ -54,23 +54,32 @@ disp('Reading header file for coordinate system ')
 foundit=0;
 whline=1;
 %
+% while foundit==0
+%     %
+%     tline=fgetl(fid);
+%     %
+%     %
+%     if length(tline>0) % some lines are empty...
+%         %
+%         if strcmp(tline(1:10),'Coordinate') % find line that starts with 'Coordinate'
+%             foundit=1;
+%         else
+%         end
+%         %
+%     end
+%     %
+%     whline=whline+1;
+%     %
+% end
+
 while foundit==0
-    %
     tline=fgetl(fid);
-    %
-    %
-    if length(tline>0) % some lines are empty...
-        %
-        if strcmp(tline(1:10),'Coordinate') % find line that starts with 'Coordinate'
-            foundit=1;
-        else
-        end
-        %
+    if strfind(tline,'Coordinate')
+      foundit = 1;
     end
-    %
-    whline=whline+1;
-    %
+    whline = whline + 1;
 end
+
 
 % Options will be 'BEAM','ENU',or 'XYZ'
 if strcmp(tline(end-3:end),'BEAM')
@@ -184,7 +193,7 @@ aqdp.T(3,1:3)=str2num(tline(end-21:end));
 % Now load sensor data (time, heading, pitch, roll etc
 %out=LoadAQDPdat(fullfile(datadir,[cruise '.sen']));
 disp('loading sensor data (time, pitch, roll etc')
-out=importdata(fullfile(datadir,[fnamebase '.sen']));
+out = importdata(fullfile(datadir,[fnamebase '.sen']));
 
 %MHA 1/22/2014: get all records unless specified.
 if nargin < 4
@@ -204,9 +213,12 @@ dnum=nan*ones(1,length(day));
 yday=dnum;
 
 % convert to datenum and yday
-for jj=1:length(day)
-    dnum(jj)=datenum(year(jj),month(jj),day(jj),hour(jj),min(jj),sec(jj));
-end
+% for jj=1:length(day)
+%     dnum(jj)=datenum(year(jj),month(jj),day(jj),hour(jj),min(jj),sec(jj));
+% end
+dnum = datenum([year,month,day,hour,min,sec]);
+dnum = reshape(dnum,1,[]);
+
 
 aqdp.dtnum=dnum;
 aqdp.yday=datenum2yday(dnum);
@@ -231,8 +243,6 @@ clear out
 % Now load velocity data
 %
 % Velocity columns are: burst / ensemble / bin1 / bin2 ....Nbins
-%
-clear out
 disp('loading v1 ')
 out=importdata(fullfile(datadir,[fnamebase '.v1']));
 disp('v1 loaded; saving data ')

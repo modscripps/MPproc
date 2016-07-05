@@ -176,7 +176,7 @@ switch sn
         VELsensorinfo.records{1}=therecord;
         
     case 'AQD 9340',
-        VELsensorinfo.type='Norrtek Aquadopp HR';
+        VELsensorinfo.type='Nortek Aquadopp HR';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
         therecord.date={'9/15'};
@@ -186,16 +186,23 @@ switch sn
 
         VELsensorinfo.records{1}=therecord;
         
-  case  'AQD11419'
-        VELsensorinfo.type='Norrtek Aquadopp HR';
+  case  'AQD 6299'
+        VELsensorinfo.type='Nortek Aquadopp HR';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
+        rec = 1;
         therecord.date={'2/14'};
         therecord.what={'recovered SP14'};
         therecord.host={'109'};
         therecord.comments={''};
-
-        VELsensorinfo.records{1}=therecord;
+        VELsensorinfo.records{rec}=therecord;
+        rec = rec+1;
+        therecord.date={'6/16'};
+        therecord.what={'recovered FLEAT16'};
+        therecord.host={'107'};
+        therecord.comments={''};
+        VELsensorinfo.records{rec}=therecord;
+        rec = rec+1;
         
   case 'None'
         VELsensorinfo.type='None';

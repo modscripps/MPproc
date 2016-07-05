@@ -2687,6 +2687,43 @@ switch cruise
               info.experiment='Arctic';
         end
     end
+    
+  case 'FLEAT16' % FLEAT16
+    switch sn
+      case '107'
+        switch mooring
+            case 'F5',
+              info.lat = 8.1048; %surveyed
+              info.lon = 134.6430;
+              info.H=793;
+              info.dates={'6/3/2016-6/21/2016'};
+              info.pmin=66;
+              info.pmax=762;
+              info.dt=0; %continuous
+
+              info.n_profiles=657;
+              info.year=2016;
+              info.start_yday=yearday(3,6,2016,0,0,0);
+              info.end_yday=yearday(31,6,2016,0,0,0);
+
+%             http://www.ngdc.noaa.gov/geomag-web/#declination
+%             Model Used: 	WMM2015
+%             Latitude: 	72.5941° N
+%             Longitude: 	145.0167° W
+%             2015-09-15 	20.96° E  ± 0.79°  changing by  0.69° W per year
+              info.magvar=0;
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-004');%
+              info.VELsensor=VELsensorinfo_MP('AQD 6299'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='FLEAT';
+        end
+    end
   
   otherwise,
     disp('No such cruise.')

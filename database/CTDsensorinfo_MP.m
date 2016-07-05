@@ -185,6 +185,17 @@ switch sn
         therecord.comments={''};
         CTDsensorinfo.records{rec}=therecord;
         rec=rec+1;
+    case 'SBE-MP52-004',
+        CTDsensorinfo.type='SBE CTD 43F w/ oxygen';
+        CTDsensorinfo.owner='Alford';
+        %Here we fill in the history of the sensor
+        rec=1;
+        therecord.date={'6/16'};
+        therecord.what={'deployed FLEAT16'};
+        therecord.host={'107'};
+        therecord.comments={''};
+        CTDsensorinfo.records{rec}=therecord;
+        rec=rec+1;
     otherwise
         error('Unknown SN')        
 end
