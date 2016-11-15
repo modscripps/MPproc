@@ -207,7 +207,7 @@ for c = st:wh
 
 
     if get_eng
-      EngFile = fullfile(mpdatadir,'mat',sprintf('raw%04d',st));
+      EngFile = fullfile(mpdatadir,'mat',sprintf('raw%04d',c));
       ae = load(EngFile);
       MP.epres(1:length(ae.epres),iout)   = ae.epres;
       MP.ecurr(1:length(ae.epres),iout)   = ae.ecurr;
@@ -237,7 +237,7 @@ for c = st:wh
     if get_raw
       % Load the file if we did not request engineering data
       if ~get_eng
-        EngFile = fullfile(mpdatadir,'mat',sprintf('raw%04d',st));
+        EngFile = fullfile(mpdatadir,'mat',sprintf('raw%04d',c));
         ae = load(EngFile);
       end
       
