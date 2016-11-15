@@ -1997,9 +1997,9 @@ switch cruise
               info.station='T10';
               info.experiment='SamoanPassage';
           end
-        case '108', %108 is deployed on T2 and again on T8
+        case '108' %108 is deployed on T2 and again on T8
           switch mooring
-            case 'T2',
+            case 'T2'
               info.lat=-8- 12.670/60; %surveyed
               info.lon=-168 -41.430/60;
               info.H=4812;
@@ -2013,7 +2013,7 @@ switch cruise
               info.start_yday=yearday(17,1,2014,17,0,0);
               info.end_yday=yearday(27,1,2014,23,0,0);
 
-              info.magvar=magdev(info.lat,info.lon); %2000 magdev from Visbeck; mhatoolbox/visbeck_ladcp
+              info.magvar=10.31;
 
               info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
               info.VELsensor=VELsensorinfo_MP('1605'); %
@@ -2112,7 +2112,7 @@ switch cruise
               info.magvar=10.40;
 
               info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-026');%
-              info.VELsensor=VELsensorinfo_MP('AQD11419'); %
+              info.VELsensor=VELsensorinfo_MP('AQD 6299'); %
 
               info.totdist=NaN; %From depth_history
               info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
