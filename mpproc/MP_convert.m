@@ -211,8 +211,17 @@ for mm=1:length(stas)
     %  ACM FILE
     if ~IsAQD % only for FSI ACM
         if exist([rawdir slsh afile,'.TXT'])
+          % Test for headerline, get rid of it if present
+          fid = fopen([rawdir slsh afile,'.TXT']);
+          test = fgetl(fid);
+          fclose(fid);
+          if strcmp(test(1:6),'Sample')
+            acm = MP_acm_read_new_style_acm([rawdir slsh afile,'.TXT']);
+          else
             eval(['load ',rawdir slsh afile,'.TXT']);
             acm=eval(afile);
+          end
+          
         elseif exist ([rawdir slsh,'a',sprintf('%7.7i',(stas(mm))),'.txt'])
             eval(['load '  rawdir slsh,'a',sprintf('%7.7i',(stas(mm))),'.txt'])
             acm=eval(['a',sprintf('%7.7i',(stas(mm)))]);

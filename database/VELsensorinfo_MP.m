@@ -4,41 +4,41 @@ function VELsensorinfo=VELsensorinfo_MP(sn)
 VELsensorinfo.sn=sn;
 
 switch sn
-    case '1605',
+    case '1605'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1607',
+    case '1607'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1653',
+    case '1653'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1654',
+    case '1654'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1617',
+    case '1617'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1660',
+    case '1660'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='IARC';
-    case '1661',
+    case '1661'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='IARC';
-    case '1728',
+    case '1728'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1500',
+    case '1500'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1597',
+    case '1597'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
-    case '1730',
+    case '1730'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Toole';
 
-    case '1869',
+    case '1869'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
@@ -46,7 +46,7 @@ switch sn
         therecord.what={'purchased'};
         therecord.host={'105'};
         therecord.comments={''};
-    case '1668',
+    case '1668'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
@@ -87,7 +87,7 @@ switch sn
         VELsensorinfo.records{5}=therecord;
 
 
-    case '1710',
+    case '1710'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
@@ -126,7 +126,7 @@ switch sn
 
         VELsensorinfo.records{5}=therecord;
 
-    case '1711',
+    case '1711'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
@@ -164,7 +164,7 @@ switch sn
         therecord.comments={''};
 
         VELsensorinfo.records{5}=therecord;
-    case '1845',
+    case '1845'
         VELsensorinfo.type='FSI 2-D ACM';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
@@ -175,7 +175,7 @@ switch sn
 
         VELsensorinfo.records{1}=therecord;
         
-    case 'AQD 9340',
+    case 'AQD 9340'
         VELsensorinfo.type='Nortek Aquadopp HR';
         VELsensorinfo.owner='Alford';
         %Here we fill in the history of the sensor
@@ -204,6 +204,17 @@ switch sn
         VELsensorinfo.records{rec}=therecord;
         rec = rec+1;
         
+  case '1230'
+        VELsensorinfo.type='FSI ACM';
+        VELsensorinfo.owner='Merrifield';
+        %Here we fill in the history of the sensor
+        therecord.date={'4/17'};
+        therecord.what={'recovered FLEAT16'};
+        therecord.host={'MM02'};
+        therecord.comments={''};
+
+        VELsensorinfo.records{1}=therecord;
+        
   case 'None'
         VELsensorinfo.type='None';
         VELsensorinfo.owner=[];
@@ -216,7 +227,7 @@ switch sn
         VELsensorinfo.records{1}=therecord;
         
 
-    otherwise,
+  otherwise
         error('Unknown VELsensor SN. Please edit VELsensorinfo_MP.m')
 
 end

@@ -80,7 +80,7 @@ if plottime==1
     datetick('x',1,'keeplimits')
 end
 set(gca,'xticklabel',[]) 
-lg=legend(h,'DOWN','UP',3);
+lg=legend(h,'DOWN','UP');
 set(lg,'fontsize',8)
 
 axes(ax(3))

@@ -27,15 +27,32 @@ if fid == -1
   error('Could not find specified file in the current directory')
 end
 
+% Test if first line gives information on sampling rate
+test = fgetl(fid);
+if ~strcmp(test(1:6),'Sample')
+  frewind(fid);
+end
+fclose(fid);
+
 % Distinguish between regular data file and spin test file
 if strcmp(fn,'spintest.txt')
+  fid = fopen(fn, 'r') ;
   H = [fscanf(fid, '%f %f %f %f %f', [5, inf])]';
+  fclose(fid);
 else
-  H = [fscanf(fid, '%f %f %f %f %f %f %f %f %f', [9, inf])]';
+  % need to check for new style acm file
+  fid = fopen(fn);
+  test = fgetl(fid);
+  fclose(fid);
+  if strcmp(test(1:6),'Sample')
+    H = MP_acm_read_new_style_acm(fn);
+  else
+    fid = fopen(fn);
+    H = [fscanf(fid, '%f %f %f %f %f %f %f %f %f', [9, inf])]';
+    fclose(fid);
+  end  
 end
 
-% Close file
-fclose(fid);
 
 % Extract direction information
 HX = H(:,3);
