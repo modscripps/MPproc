@@ -90,6 +90,7 @@ MP.w    = MP.t;
 MP.dox  = MP.t;
 MP.pitch = MP.t;
 MP.roll  = MP.t;
+MP.time  = MP.t;
 
 % Engineering fields
 if get_eng==1
@@ -167,6 +168,7 @@ for c = st:wh
     MP.t(1:length(a.tave),iout) = a.tave;
     MP.s(1:length(a.tave),iout) = a.s_ave;
     MP.c(1:length(a.tave),iout) = a.cave;
+    MP.time(1:length(a.tave),iout) = a.ctimave;
 
     if ~isfield(a,'doxave')
       a.doxave = NaN;
