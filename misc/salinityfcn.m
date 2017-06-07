@@ -64,10 +64,12 @@ function s = salinityfcn(c,t,p)
 
 s = NaN .* c .* t .* p;
 ic = find(c < EPSILON);
-if ~isempty(ic)
-    warning([num2str(length(ic)) ' bad conductivities.'])
-    c(ic) = NaN;
-end
+
+%if ~isempty(ic)
+%    warning([num2str(length(ic)) ' bad conductivities.'])
+%    c(ic) = NaN;
+%end
+
 % if (c < EPSILON) 
 %    !echo bad conductivity
 %    break

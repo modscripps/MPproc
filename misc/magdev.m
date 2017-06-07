@@ -20,10 +20,10 @@ function  [dev,d,h,i,f,x,y,z]=magdev(flat,flon,elevkm,nmax,igrf);
 %
 
 if nargin<5
- igrf='IGRF95';
- igrf='IGRF00';
+%  igrf='IGRF95';
+  igrf='IGRF00';
 end
-eval(['gh=',igrf,';'])
+eval(['ghh=',igrf,';'])
 
 if nargin<4
  nmax=10;
@@ -35,7 +35,7 @@ end
 
 
 
-[x,y,z] = shval3(flat,flon,elevkm,nmax,gh);
+[x,y,z] = shval3(flat,flon,elevkm,nmax,ghh);
 [d,i,h,f]=dihf (x,y,z);
 
 dev=d*180/pi;
