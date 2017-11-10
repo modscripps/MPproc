@@ -98,15 +98,15 @@ direc  = fullfile(mpdatadir,'mat');
 outdir = fullfile(mpdatadir,'gridded');
 
 % Ask user if these are the right directories
-fprintf(1,'\n Input directory:\n%s\n',direc);
-fprintf(1,' Output directory:\n%s\n',outdir);
-reply = input(' Are these directories correct? y/n [y]: ','s');
-if isempty(reply)
-  reply = 'y';
-end
-if ~strcmp(reply,'y')
-  error('You did not like the directories')
-end
+% fprintf(1,'\n Input directory:\n%s\n',direc);
+% fprintf(1,' Output directory:\n%s\n',outdir);
+% reply = input(' Are these directories correct? y/n [y]: ','s');
+% if isempty(reply)
+%   reply = 'y';
+% end
+% if ~strcmp(reply,'y')
+%   error('You did not like the directories')
+% end
 
 % Make output directory if it does not exist.
 if ~exist('outdir','dir')
