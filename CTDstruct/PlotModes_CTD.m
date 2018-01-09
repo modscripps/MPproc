@@ -33,4 +33,4 @@ lw(h(3:4),2)
 axis ij
 ylim([0 max(CTD.H)])
 xlabel('Horiz')
-legend(h([3 4]),'(-) MHA','sw\_vmodes',3)
+legend(h([3 4]),'(-) MHA','sw\_vmodes')

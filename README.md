@@ -13,3 +13,19 @@ Happy processing!
 
 Gunnar Voet
 10/2015
+
+
+NOTES ON FIXING CTD UP-DOWN OFFSETS
+MMH 1/2018
+
+To test parameters: In the MP worksheet, you can uncomment the lines starting with CTpar, play with the parameters, and run MP_test_CTD_params(info,profile_number) to find the combination of coefficients that  work best for a given instrument. 
+
+The thermal mass correction uses alfa and beta, and fine-tuned using alfa2 and beta2. To turn off the fine turning, CTpar.alfa2 and CTpar.beta2 can both be set to 1 (or completely commented out).
+
+Once you have the right settings, set the CTD calibration constants in cal/make_ctd_calfile_cruiseid_sn###.m
+
+A good tutorial on Conductivity Cell Thermal Mass can be found at http://www.seabird.com/pdf_outside/Module12_AdvancedDataProcessing.pdf
+
+
+
+

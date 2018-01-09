@@ -93,14 +93,14 @@ for ip = 1:nP
       dTp = T;
       dTp(2:end) = diff(T);
       dTp(1) = dTp(2);
-      dcdt = 0.1 * (1 + 0.006*(T-20));
-      ctm = 0*dTp;
+      dcdt = 0.1 * (1 + 0.006*(T-20));  
+      ctm = 0*dTp;  %initialize ctm
       % a,b
       aa = 2 * CTpar.alfa / (2 + CTpar.beta/CTpar.freq);
       bb = 1 - (2*aa/CTpar.alfa);
       % compute corrections
-      for i = 2:length(C)
-        ctm(i) = -1.0*bb*ctm(i-1) + aa*dcdt(i)*dTp(i);
+      for ii = 2:length(C)
+        ctm(ii) = -1.0*bb*ctm(ii-1) + aa*dcdt(ii)*dTp(ii);
       end
       C = C + ctm;
     end

@@ -2809,7 +2809,7 @@ switch cruise
             info.ballast.comments=[];
             info.comments = {''};
             info.station = mooring;
-            info.experiment='LAJIT2';
+            info.experiment='LaJIT';
         end
     end
     

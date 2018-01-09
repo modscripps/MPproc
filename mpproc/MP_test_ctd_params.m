@@ -36,30 +36,30 @@ end
 ni = p:p+1;
 
 % load raw profiles
-for i = 1:numel(ni)
-  b(i) = load(fullfile(RawDir,sprintf('raw%4.4i.mat',ni(i))));
+for ii = 1:numel(ni)
+  b(ii) = load(fullfile(RawDir,sprintf('raw%4.4i.mat',ni(ii))));
 end
 
 % calculate salinity for the raw profiles
-for i = 1:numel(ni)
-  b(i).s = sw_salt(b(i).ccond./sw_c3515,b(i).ctemp,b(i).cpres);
-  b(i).sgth = sw_pden(b(i).s,b(i).ctemp,b(i).cpres,4000)-1000;
-  b(i).th = sw_ptmp(b(i).s,b(i).ctemp,b(i).cpres,0);
+for ii = 1:numel(ni)
+  b(ii).s = sw_salt(b(ii).ccond./sw_c3515,b(ii).ctemp,b(ii).cpres);
+  b(ii).sgth = sw_pden(b(ii).s,b(ii).ctemp,b(ii).cpres,4000)-1000;
+  b(ii).th = sw_ptmp(b(ii).s,b(ii).ctemp,b(ii).cpres,0);
 end
 
 %% Load data and get ctd samplerate
 
-for i = 1:numel(ni)
+for ii = 1:numel(ni)
 
-psdate = b(i).psdate;
-pstart = b(i).pstart;
-pedate = b(i).pedate;
-pstop  = b(i).pstop;
-epres = b(i).epres;
-cpres = b(i).cpres;
-ctemp = b(i).ctemp;
-ccond = b(i).ccond;
-engtime = b(i).engtime;
+psdate = b(ii).psdate;
+pstart = b(ii).pstart;
+pedate = b(ii).pedate;
+pstop  = b(ii).pstop;
+epres = b(ii).epres;
+cpres = b(ii).cpres;
+ctemp = b(ii).ctemp;
+ccond = b(ii).ccond;
+engtime = b(ii).engtime;
 
 % Extract the profile start and stop times
 % Start
@@ -92,8 +92,8 @@ ctime = ctime-ctime(ncp);
 ctdsamplerate = (engtime(mep)-engtime(nep))/(mcp-ncp); % days/sample
 ctime = (engtime(nep)+ctime*ctdsamplerate)';
 
-b(i).ctime = ctime;
-b(i).ctdsamplerate = ctdsamplerate;
+b(ii).ctime = ctime;
+b(ii).ctdsamplerate = ctdsamplerate;
 
 end
 
@@ -124,8 +124,8 @@ CTpar.freq = ctdsamplerate*24*3600;
 % CTpar.alfa    = 0.065;    % was 0.05
 % CTpar.beta    = 0.06;    % was 0.055
 % CTpar.P2T_lag = -1.0;   % lag (in scans) from pres to temp sampling
-for i = 1:2
-c(i) = MP_ctd_proc_MP52(b(i).cpres, b(i).ctemp, b(i).ccond, b(i).cdox, CTpar);
+for ii = 1:2;
+c(ii) = MP_ctd_proc_MP52(b(ii).cpres, b(ii).ctemp, b(ii).ccond, b(ii).cdox, CTpar);
 end
 % c.pres
 % c.cond
@@ -155,11 +155,11 @@ clf
 
 ax(1) = axes('position',[0.1 0.1 0.25 0.8]);
 hold on
-for i = 1:2
-  h(i) = plot(b(i).s,b(i).cpres,'color',col(2*i-1,:));
+for ii = 1:2
+  h(ii) = plot(b(ii).s,b(ii).cpres,'color',col(2*ii-1,:));
 end
-for i = 1:2
-  h2(i) = plot(c(i).sal,c(i).pres,'color',col(2*i,:));
+for ii = 1:2
+  h2(ii) = plot(c(ii).sal,c(ii).pres,'color',col(2*ii,:));
 end
 
 set(gca,'ydir','reverse','box','on')
@@ -174,8 +174,8 @@ alpha = 125;
 tref = 0.6:.01:2;
 sref = nanmin(b(1).s)-0.002:.001:nanmax(b(1).s)+0.002;
 for j = 1:length(tref)
-  for i = 1:length(sref)
-    dens(j,i) = sw_pden(sref(i),tref(j),0,4000);
+  for ii = 1:length(sref)
+    dens(j,ii) = sw_pden(sref(ii),tref(j),0,4000);
   end
 end
 dens = dens-1000;
@@ -191,8 +191,8 @@ hsr(2) = plot(c(1).sal,c(1).th,'o');
 hsr(3) = plot(b(2).s,b(2).th,'o');
 hsr(4) = plot(c(2).sal,c(2).th,'o');
 
-for i = 1:4;
-  set(hsr(i),'markerfacecolor',col(i,:),...
+for ii = 1:4;
+  set(hsr(ii),'markerfacecolor',col(ii,:),...
              'markeredgecolor','none',...
              'markersize',5);
 end
@@ -212,8 +212,8 @@ xlabel('Salinity')
 box on
 
 drawnow
-for i = 1:4
-sMarkers = hsr(i).MarkerHandle;
+for ii = 1:4
+sMarkers = hsr(ii).MarkerHandle;
 sMarkers.FaceColorData(4) = 100;
 end
 
