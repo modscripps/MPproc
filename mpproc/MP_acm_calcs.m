@@ -28,7 +28,7 @@ if TiltCorrection
 
   % VI == Instrument frame velocity
   VI = [Vx(:)' ; Vy(:)' ; Vz(:)'];
-  [VE,Head,HeadTot] = MP_rotMP2Earth3D(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_dev,VI);
+  [VE,Head,HeadTot] = MP_rotMP2Earth(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_dev,VI);
   % VE == Earth velocities including MP velocity.
   Veast=VE(1,:);
   Vnorth=VE(2,:);

@@ -207,6 +207,39 @@ switch sn
         therecord.comments={''};
         CTDsensorinfo.records{rec}=therecord;
         rec=rec+1;
+      case 'SBE-MP52-007'
+        CTDsensorinfo.type='SBE CTD 43F w/ oxygen';
+        CTDsensorinfo.owner='Alford';
+        %Here we fill in the history of the sensor
+        rec=1;
+        therecord.date={'2/18'};
+        therecord.what={'deployed PISTONpooltests'};
+        therecord.host={'105'};
+        therecord.comments={''};
+        CTDsensorinfo.records{rec}=therecord;
+        rec=rec+1;
+     case 'SBE-MP52-087'
+        CTDsensorinfo.type='SBE CTD 43F w/ oxygen';
+        CTDsensorinfo.owner='Alford';
+        %Here we fill in the history of the sensor
+        rec=1;
+        therecord.date={'7/21'};
+        therecord.what={'deployed BLT MP1'};
+        therecord.host={'107'};
+        therecord.comments={''};
+        CTDsensorinfo.records{rec}=therecord;
+        rec=rec+1;
+    case 'SBE-MP52-088'
+        CTDsensorinfo.type='SBE CTD 43F w/ oxygen';
+        CTDsensorinfo.owner='Alford';
+        %Here we fill in the history of the sensor
+        rec=1;
+        therecord.date={'9/18'};
+        therecord.what={'deployed PISTON'};
+        therecord.host={'109'};
+        therecord.comments={''};
+        CTDsensorinfo.records{rec}=therecord;
+        rec=rec+1;
     otherwise
         error('Unknown SN')        
 end

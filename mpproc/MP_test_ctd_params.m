@@ -1,4 +1,4 @@
-function MP_test_ctd_params(info,p,CTpar)
+function MP_test_ctd_params(info,p,CTpar, plot_isopycnals)
 
 % MP_TEST_CTD_PARAMS Test a set of ctd processing parameters for a SBE52.
 % By default the ctd cal file is loaded. If parameters are given in PARAMS
@@ -33,6 +33,11 @@ else
   LoadCTDFile = 0;
 end
 
+% See if we want to plot isopycnals
+if nargin<4
+  plot_isopycnals=0;
+end
+
 ni = p:p+1;
 
 % load raw profiles
@@ -41,10 +46,10 @@ for ii = 1:numel(ni)
 end
 
 % calculate salinity for the raw profiles
-for ii = 1:numel(ni)
-  b(ii).s = sw_salt(b(ii).ccond./sw_c3515,b(ii).ctemp,b(ii).cpres);
-  b(ii).sgth = sw_pden(b(ii).s,b(ii).ctemp,b(ii).cpres,4000)-1000;
-  b(ii).th = sw_ptmp(b(ii).s,b(ii).ctemp,b(ii).cpres,0);
+for i = 1:numel(ni)
+  b(i).s = sw_salt(b(i).ccond./sw_c3515,b(i).ctemp,b(i).cpres);
+  b(i).sgth = sw_pden(b(i).s,b(i).ctemp,b(i).cpres,2000)-1000;
+  b(i).th = sw_ptmp(b(i).s,b(i).ctemp,b(i).cpres,0);
 end
 
 %% Load data and get ctd samplerate
@@ -167,23 +172,28 @@ grid on
 ylabel('Pressure [dbar]')
 xlabel('Salinity')
 legend([h(1) h2(1) h(2) h2(2)],LegText)
+% set(gca,'xlim', [34.86, 35], 'ylim', [1500, 2100])
 
 ax(2) = axes('position',[0.38 0.1 0.5 0.6]);
 
 alpha = 125;
-tref = 0.6:.01:2;
-sref = nanmin(b(1).s)-0.002:.001:nanmax(b(1).s)+0.002;
-for j = 1:length(tref)
-  for ii = 1:length(sref)
-    dens(j,ii) = sw_pden(sref(ii),tref(j),0,4000);
+
+if plot_isopycnals
+  tref = 0.6:.01:2;
+  sref = nanmin(b(1).s)-0.002:.001:nanmax(b(1).s)+0.002;
+  for j = 1:length(tref)
+    for i = 1:length(sref)
+      dens(j,i) = sw_pden(sref(i),tref(j),0,4000);
+    end
   end
+  dens = dens-1000;
 end
-dens = dens-1000;
 
-
-[cc,h]=contour(sref,tref,dens,[45.85:.01:45.97],'k');
-clabel(cc,h,'labelspacing',800,'fontsize',8,'color',gr(.3));
-set(h,'color',gr(.7),'linewidth',0.25)
+if plot_isopycnals
+  [cc,h]=contour(sref,tref,dens,[45.85:.01:45.97],'k');
+  clabel(cc,h,'labelspacing',800,'fontsize',8,'color',gr(.3));
+  set(h,'color',gr(.7),'linewidth',0.25)
+end
 
 hold on
 hsr(1) = plot(b(1).s,b(1).th,'o');

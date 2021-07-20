@@ -215,8 +215,12 @@ for mm=1:length(stas)
           fid = fopen([rawdir slsh afile,'.TXT']);
           test = fgetl(fid);
           fclose(fid);
-          if strcmp(test(1:6),'Sample')
+          if test==-1
+              % no data
+              acm = [];
+          elseif strcmp(test(1:6),'Sample')
             acm = MP_acm_read_new_style_acm([rawdir slsh afile,'.TXT']);
+          
           else
             eval(['load ',rawdir slsh afile,'.TXT']);
             acm=eval(afile);

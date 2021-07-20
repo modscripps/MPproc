@@ -111,9 +111,9 @@ data3=vy(smin:smax);
 nfft=100;
 dt=1/samprate;
 
-[f,P1,P1s]=myspectrum(data1,nfft,dt,1/80);
-[f,P2,P2s]=myspectrum(data2,nfft,dt,1/80);
-[f,P3,P3s]=myspectrum(data3,nfft,dt,1/80);
+[f,P1,P1s]=myspectrum2(data1,nfft,dt,1/80);
+[f,P2,P2s]=myspectrum2(data2,nfft,dt,1/80);
+[f,P3,P3s]=myspectrum2(data3,nfft,dt,1/80);
 
 df=f(2)-f(1);
 p1vec(c)=sqrt(sum(P1)*df);

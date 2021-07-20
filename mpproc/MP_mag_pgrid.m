@@ -44,11 +44,10 @@ function MP_mag_pgrid(sn,cruise,mooring,nprof,prgrid)
 % 5/06
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-disp([' PROGRAM MP_mag_pgrid version 1.0 - Sep 2015'])
-disp([' (It was mag_pgrid version MHA - Mar 2006)'])
-disp([' (It was mmp_pgrid       JMT  version 1 - Dec 2001)'])
-disp([' **************************************************'])
+disp(' PROGRAM MP_mag_pgrid version 1.0 - Sep 2015')
+disp(' (It was mag_pgrid version MHA - Mar 2006)')
+disp(' (It was mmp_pgrid JMT  version 1 - Dec 2001)')
+disp(' **************************************************')
 
 % Make sure we have at least sn, cruise and mooring as input
 if nargin<3
@@ -139,8 +138,9 @@ vel_bounds = [-100 100];
 compass_bounds = [-1.1 1.1];
 tilt_bounds = [-45 45];
 
-% min # of scans requuired to process a profile
+% min # of scans required to process a profile
 nscans_test = 500;
+nscans_test = 100;
 
 %-----------------------------------------------------
 % end of new function header replacing the gui parsing
@@ -288,8 +288,10 @@ for h = 1:length(stas) % loop over all profiles
   
   % Load raw .mat-file
   if exist(rawmatfile,'file')==2
-    [okay Vab Vcd Vef Vgh aHx aHy aHz aTx aTy cpres ctemp ccond cdox ...
-      psdate pstart pedate pstop epres ecurr edpdt evolt engtime]...
+    [okay, Vab, Vcd, Vef, Vgh, aHx, aHy, aHz, aTx, aTy,...
+     cpres, ctemp, ccond, cdox,...
+     psdate, pstart, pedate, pstop,...
+     epres, ecurr, edpdt, evolt, engtime]...
       = MP_load_rawmatfmt(rawmatfile,nscans_test);
   else
     msg = ['Could not find ' rawmatfile,'. '...
@@ -301,7 +303,7 @@ for h = 1:length(stas) % loop over all profiles
   end
   
   % check that this file is okay, if not skip this profile
-  if (okay==1);
+  if (okay==1)
 
   % Extract the profile start and stop times
   % Start
@@ -353,7 +355,7 @@ for h = 1:length(stas) % loop over all profiles
   jj = find(diffp==mindifp);
   mcp = jj(end);
 
-  ctime = [1:length(cpres)];
+  ctime = 1:length(cpres);
   ctime = ctime-ctime(ncp);
   ctdsamplerate = (engtime(mep)-engtime(nep))/(mcp-ncp); % days/sample
   ctime = (engtime(nep)+ctime*ctdsamplerate)';
@@ -363,7 +365,7 @@ for h = 1:length(stas) % loop over all profiles
   % Fill in ctdsamplerate and ctime for hc05d5 assuming nominal values
   if strcmp(experiment_name,'hc05d5')==1 && malf_hc05d5 ==1
     ctdsamplerate=1.2/24/3600;
-    ctime=[1:length(cpres)];
+    ctime=1:length(cpres);
     ctime=(engtime(1)+120/24/3600+ctime*ctdsamplerate)';
   end
   % FIX END
@@ -386,9 +388,6 @@ for h = 1:length(stas) % loop over all profiles
   cpres = MP_edit(p_bounds,3,cpres);
   ctemp = MP_edit(t_bounds,3,ctemp);
   ccond = MP_edit(c_bounds,3,ccond);
-  
-
-  
   
   % Tag ACM path current data very near zero as bad. This is done to
   % eliminate some data spikes occasionally seen in the data.
@@ -426,8 +425,6 @@ for h = 1:length(stas) % loop over all profiles
   
   end % FSIACM only
   %    [epres]=MP_edit(p_bounds,1,epres);
-  
-  
 
   % Here we apply calibrations to the CTD and ACM sensor data
   % GV: cals are already applied in the SBE52 itself, this is to apply
@@ -452,7 +449,7 @@ for h = 1:length(stas) % loop over all profiles
   % FSI CTD
   % Recursively filter the conductivity and pressure to match the
   % temperature
-  if isempty(strfind(CTD_id,'SBE-MP52')) % FSI sensor
+  if ~contains(CTD_id,'SBE-MP52') % FSI sensor
     % 4/09 MHA change: allow use of a time-variable tlag.  This is a
     % vector the same length as the number of profiles.  So if tlag is
     % a vector, we use the value for the current profile.
@@ -476,7 +473,7 @@ for h = 1:length(stas) % loop over all profiles
   end
 
   % SBE CTD
-  if strfind(CTD_id,'SBE-MP52') % SBE sensor
+  if contains(CTD_id,'SBE-MP52') % SBE sensor
     % Compute lagged p,c and t, correct for thermal mass and then compute
     % sgth, s, th, and dox using these.  These are all output in the
     % structure csbe.
@@ -521,8 +518,8 @@ for h = 1:length(stas) % loop over all profiles
   aHz = myfiltfilt(b,a,aHz);
   aTx = myfiltfilt(b,a,aTx);
   aTy = myfiltfilt(b,a,aTy);
-
-  %######################################################################
+  
+  %------------------------------------------------------------------------
   % FIX START
   %MHA - 10/2011.  For iwise11, H04, Vef craps out during profile
   %426. So hardwire Vef = Vab.
@@ -531,10 +528,8 @@ for h = 1:length(stas) % loop over all profiles
     Vef=Vab;
   end
   % FIX END
-  %**********************************************************************
+  %------------------------------------------------------------------------
 
-  
-  
   % Now calculate the velocity in instrument and geographic coordinates
   % first, derive the velocity data in Cartesian instrument coordinates
   Vx  = -(Vab+Vef)/(2.*.707);
@@ -554,13 +549,13 @@ for h = 1:length(stas) % loop over all profiles
 
   % now select the vertical velocity channel that is "upstream"
   avevz = mean(Vz1);
-  if(avevz<0);
+  if(avevz<0)
     Vz = Vz1;
   else
     Vz = Vz2;
   end
 
-  %######################################################################
+  %------------------------------------------------------------------------
   % FIX START
   %MHA - as per John's suggestions,
   %Hardwire to use Vz2 for Mamala Bay 10-199.  8/4/03
@@ -568,8 +563,7 @@ for h = 1:length(stas) % loop over all profiles
     Vz=Vz2;
   end
   % FIX END
-  %**********************************************************************
-
+  %------------------------------------------------------------------------
 
   % Here we normalize the compass data onto a unit circle, and derive the
   % compass heading of the ACM sting
@@ -578,7 +572,6 @@ for h = 1:length(stas) % loop over all profiles
   aHy  = aHy./Hmag;
   aHz  = aHz./Hmag;
   
-  
   % 1/08 MHA: allow for 8-point compass cals. To activate, make
   % compass_bias an 8-element vector in acm_calfile instead of a single
   % number. compass_bias should be the 8 output values from the spin
@@ -586,7 +579,7 @@ for h = 1:length(stas) % loop over all profiles
   % the measured heading is clockwise of the true heading.
   % tested.
   if length(compass_bias) > 1 %==8
-    compass_bias_save = compass_bias;
+%     compass_bias_save = compass_bias;
     compass_raw = dir_sign*atan2(aHx,aHy)*180/pi; % angle in degrees CCW from E
     true_heading = 0:45:315; %angles in degs CW from N of the spin test bias values
     ccw_heading = zero22pi(-true_heading+90); % angles CCW from E of these
@@ -595,7 +588,7 @@ for h = 1:length(stas) % loop over all profiles
     compass_bias_sort = compass_bias(is);
     % add one more value for 360 degrees
     ccw_heading_sort = [ccw_heading_sort 360];
-    compass_bias_sort = [compass_bias_sort compass_bias_sort(1)];
+    compass_bias_sort = [compass_bias_sort(:); compass_bias_sort(1)];
     % We now have a bias that is defined for all angles between 0
     % and 360.  Now we interpolate it using the observed angle to
     % make a vector of compass_bias the same length as the raw
@@ -625,11 +618,13 @@ for h = 1:length(stas) % loop over all profiles
   % here we apply a correction to the velocity data for the wagging given
   % by the time rate of change of the instrument heading times a distance
   % factor
+  if 0
   if exist('wag_factor','var')
     mvpdir = continuousdir(mvpdir);
     dddt   = gradient(mvpdir);
     wagv   = wag_factor*dddt;
     Vy     = Vy+wagv;
+  end
   end
 
   % Now derive East and North velocity components    
@@ -722,12 +717,12 @@ for h = 1:length(stas) % loop over all profiles
 
   
   
-  for j = 1:length(pgrid);
+  for j = 1:length(pgrid)
 
     % First check if we have any data in a given bin,  if no, set all =
     % nan
 
-    if isnan(cscan1(j))==1 || isnan(cscan2(j))==1;
+    if isnan(cscan1(j))==1 || isnan(cscan2(j))==1
 
       pave(j)    = nan;
       tave(j)    = nan;
@@ -789,7 +784,7 @@ for h = 1:length(stas) % loop over all profiles
 
       uave(j) = mean(Veast(ascan1(j):ascan2(j)));
       vave(j) = mean(Vnorth(ascan1(j):ascan2(j)));
-      wave(j) = mean(Vz(ascan1(j):ascan2(j)));
+      wave(j) = mean(Vvert(ascan1(j):ascan2(j)));
       
       % Tilt
       Txave(j) = mean(aTx(ascan1(j):ascan2(j)));

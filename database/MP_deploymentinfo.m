@@ -2665,6 +2665,7 @@ switch cruise
             info.dt=0; %continuous
             
             info.n_profiles=220;
+%             info.n_profiles=1415;   % stopped profiling after cast 220
             info.year=2015;
             info.start_yday=yearday(1,9,2015,0,0,0);
             info.end_yday=yearday(30,9,2015,0,0,0);
@@ -2813,6 +2814,276 @@ switch cruise
         end
     end
     
+  case 'PISTONpooltests' % PISTON pool tests
+    switch sn
+      case '105'
+        switch mooring
+          case 'pool'
+            info.lat = 32.8; %surveyed
+            info.lon = -117.0;
+            info.H=10;
+            info.dates={'2/16/2018-2/20/2018'};
+            info.pmin=0;
+            info.pmax=8;
+            info.dt=0; %continuous
+            
+            info.n_profiles=25;
+            info.year=2018;
+            info.start_yday=yearday(16,2,2018,0,0,0);
+            info.end_yday=yearday(20,2,2018,0,0,0);
+            
+            info.magvar=11.697992; % using magdec -117.303 32.857 2016 10 01
+            
+            info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+            info.VELsensor=VELsensorinfo_MP('1869'); %
+            
+            info.totdist=NaN; %From depth_history
+            info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+            info.ballast.comments=[];
+            info.comments = {''};
+            info.station = mooring;
+            info.experiment='PISTON';
+            
+            
+        end
+        
+      case '107'
+        switch mooring
+          case 'pool'
+            info.lat = 32.8; %surveyed
+            info.lon = -117.0;
+            info.H=10;
+            info.dates={'3/13/2018-3/16/2018'};
+            info.pmin=0;
+            info.pmax=8;
+            info.dt=0; %continuous
+            
+            info.n_profiles=194;
+            info.year=2018;
+            info.start_yday=yearday(13,3,2018,0,0,0);
+            info.end_yday=yearday(16,3,2018,0,0,0);
+            
+            info.magvar=11.697992; % using magdec -117.303 32.857 2016 10 01
+            
+            info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+            info.VELsensor=VELsensorinfo_MP('AQD 6299'); %
+            
+            info.totdist=NaN; %From depth_history
+            info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+            info.ballast.comments=[];
+            info.comments = {''};
+            info.station = mooring;
+            info.experiment='PISTON';
+        end
+        
+        case '109'
+        switch mooring
+          case 'pool'
+            info.lat = 32.8; %surveyed
+            info.lon = -117.0;
+            info.H=10;
+            info.dates={'2/1/2018-3/15/2018'};
+            info.pmin=0;
+            info.pmax=8;
+            info.dt=0; %continuous
+            
+            info.n_profiles=241;
+            info.year=2018;
+            info.start_yday=yearday(1,2,2018,0,0,0);
+            info.end_yday=yearday(15,3,2018,0,0,0);
+            
+            info.magvar=11.697992; % using magdec -117.303 32.857 2016 10 01
+            
+            info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+            info.VELsensor=VELsensorinfo_MP('AQD 9340'); %
+            
+            info.totdist=NaN; %From depth_history
+            info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+            info.ballast.comments=[];
+            info.comments = {''};
+            info.station = mooring;
+            info.experiment='PISTON';
+        end
+    end
+    
+    case '2018' % PISTON 2018
+      switch sn
+        case '105'
+          switch mooring
+            case 'P2'
+              info.lat = 15.7632; %surveyed
+              info.lon = 134.6899;
+              info.H = 3151;
+              info.dates={'9/17/2018-9/20/2018'};
+              info.pmin = 2320;
+              info.pmax = 3160;
+              info.dt = 7/24;
+
+              info.n_profiles = 5;
+              info.year = 2018;
+              info.start_yday = yearday(17,9,2018,12,0,0);
+              info.end_yday = yearday(20,2,2018,0,0,0);
+
+              info.magvar = -1.632028; % magdec 134.6899 15.7632 2018 09 20
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+              info.VELsensor=VELsensorinfo_MP('1869'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='PISTON';
+              
+            case 'SIO3'
+              info.lat = 15.7632; %surveyed
+              info.lon = 134.6899;
+              info.H = 3151;
+              info.dates={'9/30/2018-10/7/2019'};
+              info.pmin = 2320;
+              info.pmax = 3160;
+              info.dt = 7/24;
+
+              info.n_profiles = 1239;
+              info.year = 2018;
+              info.start_yday = yearday(30,9,2018,12,0,0);
+              info.end_yday = yearday(7,10,2019,0,0,0);
+
+              info.magvar = -1.632028; % magdec 134.6899 15.7632 2018 09 20
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+              info.VELsensor=VELsensorinfo_MP('1869'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='PISTON';
+          end
+        case '108'
+          switch mooring
+            case 'SIO1'
+              info.lat = 12.3232; %surveyed
+              info.lon = 134.7619;
+              info.H = 3450;
+              info.dates={'9/17/2018-9/20/2018'};
+              info.pmin = 1885;
+              info.pmax = 3478;
+              info.dt = 7/24;
+
+              info.n_profiles = 589;
+              info.year = 2018;
+              info.start_yday = yearday(19,9,2018,0,0,0);
+              info.end_yday = yearday(7,10,2019,0,0,0);
+
+              info.magvar = -0.732572; % magdec 134.7619 12.3232 2019 02 28
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-002');%
+              info.VELsensor=VELsensorinfo_MP('1869');
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='PISTON';
+          end
+        case '109'
+          switch mooring
+            case 'SIO1'
+              info.lat = 12.3232; %surveyed
+              info.lon = 134.7619;
+              info.H = 3450;
+              info.dates={'9/17/2018-9/20/2018'};
+              info.pmin = 852;
+              info.pmax = 1651;
+              info.dt = 7/24;
+
+              info.n_profiles = 1259;
+              info.year = 2018;
+              info.start_yday = yearday(19,9,2018,0,0,0);
+              info.end_yday = yearday(7,10,2019,0,0,0);
+
+              info.magvar = -0.732572; % magdec 134.7619 12.3232 2019 02 28
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-088');%
+              info.VELsensor=VELsensorinfo_MP('AQD 9340');
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='PISTON';
+          end
+      end
+      
+    case 'NISKINpooltests' % NISKIN pool tests
+      switch sn
+        case '107'
+          switch mooring
+            case 'pool'
+              info.lat = 32.8; %surveyed
+              info.lon = -117.0;
+              info.H=10;
+              info.dates={'4/3/2019-4/5/2019'};
+              info.pmin=0;
+              info.pmax=8;
+              info.dt=0; %continuous
+
+              info.n_profiles=255;
+              info.year=2019;
+              info.start_yday=yearday(3,4,2019,0,0,0);
+              info.end_yday=yearday(5,4,2019,0,0,0);
+
+              info.magvar=11.697992; % using magdec -117.303 32.857 2016 10 01
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+              info.VELsensor=VELsensorinfo_MP('AQD 6299'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='NISKIN';
+          end
+      end
+      
+    case 'BLT1' % BLT
+      switch sn
+        case '107'
+          switch mooring
+            case 'MP1'
+              info.lat = 54 + 14.312/60; %surveyed 54° 14.312 N, 11° 56.923
+              info.lon = -11 - 56.923/60;
+              info.H=2028;
+              info.dates={'6/28/2021-7/5/2021'};
+              info.pmin=1550;
+              info.pmax=2200;
+              info.dt=0; %continuous
+
+              info.n_profiles=294;
+              info.year=2021;
+              info.start_yday=yearday(28,6,2021,0,0,0);
+              info.end_yday=yearday(5,7,2021,0,0,0);
+
+              info.magvar=-5.035717; % using magdec -11.94872139 54.238534 2021 07 01
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-087');%
+              info.VELsensor=VELsensorinfo_MP('1607'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='BLT';
+          end
+      end
+      
   otherwise
     disp('No such cruise.')
     

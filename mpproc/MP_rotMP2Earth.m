@@ -1,14 +1,10 @@
-function [VE,Head,Headcor]=MP_rotMP2Earth3D(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_dev,VI)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% function [VE,Head,HeadTot,Pc]=MP_rotMP2Earth(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_dev,VI)
+function [VE,Head,Headcor]=MP_rotMP2Earth(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_dev,VI)
+
+% [VE,Head,HeadTot,Pc] = MP_ROTMP2EARTH(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_dev,VI)
 %
 % Rotate FSI ACM velocity vector VI (in MMP instrument
 % coordinate frame) into Earth coordinates (VE=u,v,w), using
-% tilt and compass measurments from ACM.
-%
-% *Called by mag_pgrid_3D.m during MMP processing.*
-% (mag_pgrid_3D is called by pgrid_new.m near line 471)
+% tilt and compass measurements from ACM.
 %
 % *INPUTS*
 %
@@ -34,8 +30,6 @@ function [VE,Head,Headcor]=MP_rotMP2Earth3D(aTx,aTy,aHx,aHy,aHz,compass_bias,mag
 % Head: (magnetic) heading from compass (in horizontal plane) (ccw from E)
 % Headcor: Head + compass bias + mag. dev. (true heading)
 %
-%
-%
 % ~~~
 % Info on MMP Coordinate Frame:
 % +x is in direction of sting
@@ -53,8 +47,8 @@ function [VE,Head,Headcor]=MP_rotMP2Earth3D(aTx,aTy,aHx,aHy,aHz,compass_bias,mag
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%PITCH==aTx;
-%ROLL==aTy;
+% PITCH==aTx;
+% ROLL==aTy;
 
 [nr,nc]=size(VI);
 
@@ -181,7 +175,7 @@ for jj=1:Np
         -sind(head) cosd(head) 0;
         0 0 1];
     
-    %~~ Rotate velocities from intstrument to Earth frame ~~
+    %~~ Rotate velocities from instrument to Earth frame ~~
     
     % So we are doing Xfrom in order: (1) Pitch (2) roll (3) heading
     % (is this the right order?)
