@@ -26,8 +26,13 @@ dpdt=filtcpres;
 pthresh=.5*mean(filtcpres);
 paddresses=find(abs(filtcpres)<abs(pthresh));
 dividepaddresses=find(diff(paddresses)>1);
-startc=(paddresses(dividepaddresses(1)));
-endc=(paddresses(dividepaddresses(length(dividepaddresses))+1));
+if isempty(dividepaddresses)
+    startc = nan;
+    endc = nan;
+else
+    startc=(paddresses(dividepaddresses(1)));
+    endc=(paddresses(dividepaddresses(length(dividepaddresses))+1));
+end
 % % % % athresh=.5*mean(filtw);
 % % % % aaddresses=find(abs(filtw)<abs(athresh));
 % % % % divideaaddresses=find(diff(aaddresses)>1);

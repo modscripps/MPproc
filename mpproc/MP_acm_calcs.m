@@ -21,9 +21,7 @@ function [Veast,Vnorth,Vvert,Head,HeadTot] = MP_acm_calcs(Vx,Vy,Vz,...
 %
 % TODO: include dir_sign in 3D
 
-
-
-%% 3D
+% 3D
 if TiltCorrection
 
   % VI == Instrument frame velocity
@@ -34,7 +32,7 @@ if TiltCorrection
   Vnorth=VE(2,:);
   Vvert=VE(3,:); % note this is different from Vz (instrument frame)
 
-%% 2D
+% 2D
 else
   
   mvpdir = dir_sign*atan2(aHx,aHy)+compass_bias/180*pi-mag_dev/180*pi;

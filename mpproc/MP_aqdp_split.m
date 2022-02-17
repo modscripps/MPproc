@@ -3,8 +3,8 @@ function Nprofiles = MP_aqdp_split(aqdp,info,whbin)
 % Nprofiles = MP_AQDP_SPLIT(aqdp,mpdatadir,whbin)
 % 
 %   Split big aquadopp structure into separate files for each MP profile.
-%   Profiles will be written into aqdp/mat/. If a vector of bins is given
-%   the output is an average over these bins.
+%   Profiles will be written into aqdp/profiles/. If a vector of bins is
+%   given the output is an average over these bins.
 %
 %   INPUT   aqdp - big aquadopp data structure
 %           info - MP info structure

@@ -20,6 +20,7 @@ dpdt = gradient(cpres)/(samplerate.*24*3600)*100.;
 
 % Filter the dpdt and vz data to better find the start and stop transients
 [b,a] = butter(4,.05);
+% [b,a] = butter(1,.25);
 
 filtcpres = myfiltfilt(b,a,dpdt(:)); 
 filtw     = myfiltfilt(b,a,vup(:));
