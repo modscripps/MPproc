@@ -17,7 +17,7 @@ function MP_mag_pgrid(sn,cruise,mooring,nprof,prgrid)
 %   conductivity: [20 50]
 %   velocity:     [-100 100]
 %   compass:      [-1.1 1.1]
-%   tilt:         [-45 45]
+%   tilt:         [-45 45] (applied to both Tx and Ty for FSI ACM)
 %
 %   The minimum number of scans needed in a profile to be processed is
 %   currently hardcoded to 500.
@@ -25,6 +25,7 @@ function MP_mag_pgrid(sn,cruise,mooring,nprof,prgrid)
 %
 %   Gunnar Voet  [gvoet@ucsd.edu]
 %   Created: 10/01/2015 (with adaptions from A. Pickerings code)
+%   Updated: 07/2021 to improve pitch/roll corrections of FSI ACM data
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % ORIGINAL DOCUMENTATION:
@@ -44,9 +45,7 @@ function MP_mag_pgrid(sn,cruise,mooring,nprof,prgrid)
 % 5/06
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-disp(' PROGRAM MP_mag_pgrid version 1.0 - Sep 2015')
-disp(' (It was mag_pgrid version MHA - Mar 2006)')
-disp(' (It was mmp_pgrid JMT  version 1 - Dec 2001)')
+disp(' PROGRAM MP_mag_pgrid version 1.1 - Jul 2021')
 disp(' **************************************************')
 
 % Make sure we have at least sn, cruise and mooring as input
@@ -139,7 +138,6 @@ compass_bounds = [-1.1 1.1];
 tilt_bounds = [-45 45];
 
 % min # of scans required to process a profile
-nscans_test = 500;
 nscans_test = 100;
 
 %-----------------------------------------------------
@@ -167,73 +165,59 @@ fprintf(fid,' Output data directory = %s\n',outdir);
 fprintf(fid,'\n Minimum number of scans to process a drop = %g\n',...
         nscans_test);
 
-% Use the grid bounds to estimate how many CTD and ACM data scans you
-% expect from a full profile
-nscans_expected = fix((gmax-gmin)/.25*1.5)+400;
-fprintf(1,' Based on the gridding, we expect %d scans in a data file\n',...
-        nscans_expected);
-
 % Load the cal files
 % CTD
 if exist(ctd_cal_filename,'file')
-  load(ctd_cal_filename);
+  ctdcal = load(ctd_cal_filename);
 else
-  msg='Could not find CTD cal file.  Re-enter the correct path and filename';
-  msg_window(msg);
-  while (findobj('type','figure','tag','msgwin'))
-    pause(2)
-  end
+  error('Could not find CTD cal file.  Re-enter the correct path and filename')
 end
 
 % ACM
 if VelSensor
 if exist(acm_cal_filename,'file')
-  load(acm_cal_filename);
+  acmcal = load(acm_cal_filename);
 else
-  msg='Could not find ACM cal file.  Re-enter the correct path and filename';
-  msg_window(msg);
-  while (findobj('type','figure','tag','msgwin'))
-    pause(2)
-  end
+  error('Could not find ACM cal file.  Re-enter the correct path and filename')
 end
 end
 
 fprintf(fid,'\n CTD calibration filename = %s\n',ctd_cal_filename);
-fprintf(fid,'     Pres coeffs = %g %g \n',p_coefs);
-fprintf(fid,'     Temp coeffs = %g %g \n',t_coefs);
-fprintf(fid,'     Cond coeffs = %g %g \n',c_coefs);
-if isempty(strfind(CTD_id,'SBE-MP52')) % FSI sensor
-fprintf(fid,'     Temp Lag    = %g \n',tlag);
+fprintf(fid,'     Pres coeffs = %g %g \n',ctdcal.p_coefs);
+fprintf(fid,'     Temp coeffs = %g %g \n',ctdcal.t_coefs);
+fprintf(fid,'     Cond coeffs = %g %g \n',ctdcal.c_coefs);
+if ~contains(CTD_id,'SBE-MP52') % FSI sensor
+fprintf(fid,'     Temp Lag    = %g \n',ctdcal.tlag);
 else % SBE-MP52
-fprintf(fid,'     Lag                 = %g \n',CTpar.lag);
-fprintf(fid,'     P2T Lag             = %1.1f \n',CTpar.P2T_lag);
-fprintf(fid,'     Thermal mass alpha  = %g \n',CTpar.alfa);
-fprintf(fid,'     Thermal mass beta   = %g \n',CTpar.beta);
-if isfield(CTpar,'alfa2')
+fprintf(fid,'     Lag                 = %g \n',ctdcal.CTpar.lag);
+fprintf(fid,'     P2T Lag             = %1.1f \n',ctdcal.CTpar.P2T_lag);
+fprintf(fid,'     Thermal mass alpha  = %g \n',ctdcal.CTpar.alfa);
+fprintf(fid,'     Thermal mass beta   = %g \n',ctdcal.CTpar.beta);
+if isfield(ctdcal.CTpar,'alfa2')
 fprintf(fid,'     Second thermal mass correction applied:\n');
-fprintf(fid,'     Thermal mass alpha2 = %g \n',CTpar.alfa2);
-fprintf(fid,'     Thermal mass beta2  = %g \n',CTpar.beta2);
+fprintf(fid,'     Thermal mass alpha2 = %g \n',ctdcal.CTpar.alfa2);
+fprintf(fid,'     Thermal mass beta2  = %g \n',ctdcal.CTpar.beta2);
 end
 end
 
 if IsFSIACM
 fprintf(fid,'\n ACM calibration filename = %s\n',acm_cal_filename);
-fprintf(fid,'     Hx_bias  = %g \n',Hx_bias);
-fprintf(fid,'     Hx_range = %g \n',Hx_range);
-fprintf(fid,'     Hy_bias  = %g \n',Hy_bias);
-fprintf(fid,'     Hy_range = %g \n',Hy_range);
-fprintf(fid,'     Vab_bias = %g \n',Vab_bias);
-fprintf(fid,'     Vcd_bias = %g \n',Vcd_bias);
-fprintf(fid,'     Vef_bias = %g \n',Vef_bias);
-fprintf(fid,'     Vgh_bias = %g \n',Vgh_bias);
-if numel(compass_bias)<8
-  fprintf(fid,'\n     Compass bias   = %g degrees \n',compass_bias);
+fprintf(fid,'     Hx_bias  = %g \n',acmcal.Hx_bias);
+fprintf(fid,'     Hx_range = %g \n',acmcal.Hx_range);
+fprintf(fid,'     Hy_bias  = %g \n',acmcal.Hy_bias);
+fprintf(fid,'     Hy_range = %g \n',acmcal.Hy_range);
+fprintf(fid,'     Vab_bias = %g \n',acmcal.Vab_bias);
+fprintf(fid,'     Vcd_bias = %g \n',acmcal.Vcd_bias);
+fprintf(fid,'     Vef_bias = %g \n',acmcal.Vef_bias);
+fprintf(fid,'     Vgh_bias = %g \n',acmcal.Vgh_bias);
+if numel(acmcal.compass_bias)<8
+  fprintf(fid,'\n     Compass bias   = %g degrees \n',acmcal.compass_bias);
 else
-  fprintf(fid,'\n     Compass bias   = [%g %g %g %g %g %g %g %g] degrees \n',compass_bias);
+  fprintf(fid,'\n     Compass bias   = [%g %g %g %g %g %g %g %g] degrees \n',acmcal.compass_bias);
 end
-fprintf(fid,'     Direction sign = %g \n',dir_sign);
-fprintf(fid,'     Velocity Scale = %g \n',velocity_scale);
-if TiltCorrection
+fprintf(fid,'     Direction sign = %g \n',acmcal.dir_sign);
+fprintf(fid,'     Velocity Scale = %g \n',acmcal.velocity_scale);
+if acmcal.TiltCorrection
   fprintf(fid,'     Tilt correction applied\n');
 else
   fprintf(fid,'     No tilt correction applied\n');
@@ -430,20 +414,20 @@ for h = 1:length(stas) % loop over all profiles
   % GV: cals are already applied in the SBE52 itself, this is to apply
   % some kind of post-cal calibration. coefs [1 0] do not change any of
   % the data.
-  cpres = polyval(p_coefs,cpres);
-  ctemp = polyval(t_coefs,ctemp);
-  ccond = polyval(c_coefs,ccond);
+  cpres = polyval(ctdcal.p_coefs, cpres);
+  ctemp = polyval(ctdcal.t_coefs, ctemp);
+  ccond = polyval(ctdcal.c_coefs, ccond);
   
   if IsFSIACM
   % Velocity bias corrections
-  Vab = (Vab-Vab_bias)*velocity_scale;
-  Vcd = (Vcd-Vcd_bias)*velocity_scale;
-  Vef = (Vef-Vef_bias)*velocity_scale;
-  Vgh = (Vgh-Vgh_bias)*velocity_scale;
+  Vab = (Vab-acmcal.Vab_bias)*acmcal.velocity_scale;
+  Vcd = (Vcd-acmcal.Vcd_bias)*acmcal.velocity_scale;
+  Vef = (Vef-acmcal.Vef_bias)*acmcal.velocity_scale;
+  Vgh = (Vgh-acmcal.Vgh_bias)*acmcal.velocity_scale;
   
   % Compass bias (this correction should be really minor)
-  aHx = (aHx-Hx_bias)/Hx_range;
-  aHy = (aHy-Hy_bias)/Hy_range;
+  aHx = (aHx-acmcal.Hx_bias)/acmcal.Hx_range;
+  aHy = (aHy-acmcal.Hy_bias)/acmcal.Hy_range;
   end % FSIACM only
 
   % FSI CTD
@@ -477,8 +461,8 @@ for h = 1:length(stas) % loop over all profiles
     % Compute lagged p,c and t, correct for thermal mass and then compute
     % sgth, s, th, and dox using these.  These are all output in the
     % structure csbe.
-    CTpar.freq = ctdsamplerate*24*3600;
-    csbe = MP_ctd_proc_MP52(cpres, ctemp, ccond, cdox, CTpar, doxcal);
+    ctdcal.CTpar.freq = ctdsamplerate*24*3600;
+    csbe = MP_ctd_proc_MP52(cpres, ctemp, ccond, cdox, ctdcal.CTpar, ctdcal.doxcal);
     cpres = csbe.pres;
     ctemp = csbe.temp;
     ccond = csbe.cond;
@@ -508,17 +492,18 @@ for h = 1:length(stas) % loop over all profiles
   end
   
   if IsFSIACM
-  Vab = myfiltfilt(b,a,Vab);
-  Vcd = myfiltfilt(b,a,Vcd);
-  Vef = myfiltfilt(b,a,Vef);
-  Vgh = myfiltfilt(b,a,Vgh);
-  aHx = myfiltfilt(b,a,aHx);
-  aHy = myfiltfilt(b,a,aHy);
-  % need these too when applying tilt correction
-  aHz = myfiltfilt(b,a,aHz);
-  aTx = myfiltfilt(b,a,aTx);
-  aTy = myfiltfilt(b,a,aTy);
-  
+      if 0
+          Vab = myfiltfilt(b,a,Vab);
+          Vcd = myfiltfilt(b,a,Vcd);
+          Vef = myfiltfilt(b,a,Vef);
+          Vgh = myfiltfilt(b,a,Vgh);
+          aHx = myfiltfilt(b,a,aHx);
+          aHy = myfiltfilt(b,a,aHy);
+          % need these too when applying tilt correction
+          aHz = myfiltfilt(b,a,aHz);
+          aTx = myfiltfilt(b,a,aTx);
+          aTy = myfiltfilt(b,a,aTy);
+      end
   %------------------------------------------------------------------------
   % FIX START
   %MHA - 10/2011.  For iwise11, H04, Vef craps out during profile
@@ -530,24 +515,23 @@ for h = 1:length(stas) % loop over all profiles
   % FIX END
   %------------------------------------------------------------------------
 
-  % Now calculate the velocity in instrument and geographic coordinates
-  % first, derive the velocity data in Cartesian instrument coordinates
+  % Calculate the velocity in instrument and geographic coordinates.
+  % First, derive the velocity data in Cartesian instrument coordinates.
   Vx  = -(Vab+Vef)/(2.*.707);
   Vy  = (Vab-Vef)/(2.*.707);
   Vz1 = Vx-Vgh/.707;
   Vz2 = -Vx+Vcd/.707;
-
-  % MHA notes: these correspond to
-  %        Vab=acm(:,6);
-  %        Vcd=acm(:,7);
-  %        Vef=acm(:,8);
-  %        Vgh=acm(:,9);
-  %
-  % Which according to the manual are the velocities from the
+  % these correspond to
+  %        Vab=acm(:,6)   +X
+  %        Vcd=acm(:,7)   +Y
+  %        Vef=acm(:,8)   -X
+  %        Vgh=acm(:,9)   -Y
+  % which according to the manual are the velocities from the
   % +X, +Y, -X and -Y paths respectively.
   % So Vab=+X, Vcd=+Y,Vef=-X, and Vgh=-Y.
 
-  % now select the vertical velocity channel that is "upstream"
+  % Select the vertical velocity channel that is "upstream" depending on
+  % profiling direction.
   avevz = mean(Vz1);
   if(avevz<0)
     Vz = Vz1;
@@ -565,7 +549,7 @@ for h = 1:length(stas) % loop over all profiles
   % FIX END
   %------------------------------------------------------------------------
 
-  % Here we normalize the compass data onto a unit circle, and derive the
+  % Normalize the compass data onto a unit circle, and derive the
   % compass heading of the ACM sting
   Hmag = sqrt(aHx.*aHx+aHy.*aHy+aHz.*aHz);
   aHx  = aHx./Hmag;
@@ -577,23 +561,26 @@ for h = 1:length(stas) % loop over all profiles
   % number. compass_bias should be the 8 output values from the spin
   % test, in degrees, for N-NE-E-SE-S-SW-W-NW.  Positive values indicate
   % the measured heading is clockwise of the true heading.
-  % tested.
-  if length(compass_bias) > 1 %==8
-%     compass_bias_save = compass_bias;
-    compass_raw = dir_sign*atan2(aHx,aHy)*180/pi; % angle in degrees CCW from E
-    true_heading = 0:45:315; %angles in degs CW from N of the spin test bias values
-    ccw_heading = zero22pi(-true_heading+90); % angles CCW from E of these
-    % now sort the values
+  if length(acmcal.compass_bias) > 1 %==8
+    % Angle in degrees CCW from E
+    compass_raw = acmcal.dir_sign*atan2(aHx,aHy)*180/pi;
+    % Angles in degs CW from N of the spin test bias values
+    true_heading = 0:45:315;
+    % Angles CCW from E of these
+    ccw_heading = zero22pi(-true_heading+90);
+    % Sort the values
     [ccw_heading_sort,is] = sort(ccw_heading);
-    compass_bias_sort = compass_bias(is);
-    % add one more value for 360 degrees
+    compass_bias_sort = acmcal.compass_bias(is);
+    % Add one more value for 360 degrees
     ccw_heading_sort = [ccw_heading_sort 360];
     compass_bias_sort = [compass_bias_sort(:); compass_bias_sort(1)];
     % We now have a bias that is defined for all angles between 0
-    % and 360.  Now we interpolate it using the observed angle to
+    % and 360. Now we interpolate it using the observed angle to
     % make a vector of compass_bias the same length as the raw
     % heading that we will use to correct it in the next step.
-    compass_bias = interp1(ccw_heading_sort,compass_bias_sort,zero22pi(compass_raw));
+    compass_bias = interp1(ccw_heading_sort,...
+                           compass_bias_sort,...
+                           zero22pi(compass_raw));
   end
 
   % mvpdir=dir_sign*atan2(aHx,aHy)+compass_bias+mag_dev;
@@ -612,7 +599,8 @@ for h = 1:length(stas) % loop over all profiles
   % degrees, and compass_bias as the actual angle the compass reads
   % (measured CW from NORTH!) when pointed toward magnetic north.
  
-  mvpdir = dir_sign*atan2(aHx,aHy)+compass_bias/180*pi-mag_dev/180*pi;
+  mvpdir = acmcal.dir_sign * atan2(aHx, aHy) + compass_bias/180*pi - ...
+           mag_dev/180*pi;
 
   % MHA 2/2/05: insert John's wagging correction here.
   % here we apply a correction to the velocity data for the wagging given
@@ -635,8 +623,10 @@ for h = 1:length(stas) % loop over all profiles
 %   Vnorth = speed.*sin(trudir);
 
   % Run ACM calcs, either 2D or 3D
-  [Veast,Vnorth,Vvert,Head,HeadTot] = MP_acm_calcs(Vx,Vy,Vz,...
-         aHx,aHy,aHz,aTx,aTy,dir_sign,compass_bias,mag_dev,TiltCorrection);
+  [Veast,Vnorth,Vvert,Head,HeadTot] = MP_acm_calcs(...
+         Vx, Vy, Vz,...
+         aHx, aHy, aHz, aTx, aTy,...
+         acmcal.dir_sign, compass_bias, mag_dev, acmcal.TiltCorrection);
        
   end % FSIACM only
   
@@ -672,6 +662,10 @@ for h = 1:length(stas) % loop over all profiles
   %% Pressure binning
   % Now we start the pressure binning. first find the scan numbers for
   % the ctd and acm at profile start and end
+
+  % GV 2022-02-15: Here we have a problem if the profiler stayed within a
+  % small pressure range, i.e. did not profile. 
+
   if IsFSIACM
   [startc,endc,starta,enda,dpdt] = MP_align_ctdacm(cpres(:),Vz,ctdsamplerate);
   elseif IsAQDP
@@ -685,7 +679,7 @@ for h = 1:length(stas) % loop over all profiles
   cscan2 = [];
   [pgrid,cscan1,cscan2] = MP_pbins(gmin,gmax,gstep,cpres);
   
-  % AQDP: Find scans as well
+  % AQDP: Find scans for each pressure interval as well
   if IsAQDP
   [~,aqscan1,aqscan2] = MP_pbins(gmin,gmax,gstep,a.p);
   end
@@ -832,7 +826,7 @@ for h = 1:length(stas) % loop over all profiles
 
     end
 
-  end
+  end % end loop over all pressure grid levels
   
 
   % Remove the profiler's vertical velocity to get water vertical velocity

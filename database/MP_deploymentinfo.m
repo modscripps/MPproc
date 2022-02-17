@@ -3051,6 +3051,38 @@ switch cruise
               info.experiment='NISKIN';
           end
       end
+    
+    case 'NISKINE19' % NISKINe M1 main deployment
+      switch sn
+        case '107'
+          switch mooring
+            case 'M1'
+              info.lat = 59+6.087/60; %surveyed
+              info.lon = -21-11.93/60;
+              info.H=2881;
+              info.dates={'5/17/2019-12/29/2019'};
+              info.pmin=1682;
+              info.pmax=2293;
+              info.dt=5/24; % every 4 hours 48 minutes
+
+              info.n_profiles=1130;
+              info.year=2019;
+              info.start_yday=yearday(17,5,2019,0,0,0);
+              info.end_yday=yearday(29,12,2019,0,0,0);
+
+              info.magvar=-10.932937; % using magdec -21.1988 59.1014 2019 12 31
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-007');%
+              info.VELsensor=VELsensorinfo_MP('AQD 6299'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='NISKINe';
+          end
+      end
       
     case 'BLT1' % BLT
       switch sn
@@ -3069,6 +3101,31 @@ switch cruise
               info.year=2021;
               info.start_yday=yearday(28,6,2021,0,0,0);
               info.end_yday=yearday(5,7,2021,0,0,0);
+
+              info.magvar=-5.035717; % using magdec -11.94872139 54.238534 2021 07 01
+
+              info.CTDsensor=CTDsensorinfo_MP('SBE-MP52-087');%
+              info.VELsensor=VELsensorinfo_MP('1607'); %
+
+              info.totdist=NaN; %From depth_history
+              info.ballast=ballastFCN(1.42,34.69,1045.8,3988); %
+              info.ballast.comments=[];
+              info.comments = {''};
+              info.station = mooring;
+              info.experiment='BLT';
+            case 'MP2'
+              info.lat = 54 + 12.167/60; %surveyed 54° 12.167 N, 11° 52.268 W 
+              info.lon = -11 - 52.268/60;
+              info.H=1653;
+              info.dates={'7/7/2021-10/5/2021'};
+              info.pmin=1177;
+              info.pmax=1677;
+              info.dt=(1+1/3)/24; % 1hr 20min profiling interval
+
+              info.n_profiles=1617;
+              info.year=2021;
+              info.start_yday=yearday(7,7,2021,18,0,0);
+              info.end_yday=yearday(5,10,2021,15,0,0);
 
               info.magvar=-5.035717; % using magdec -11.94872139 54.238534 2021 07 01
 

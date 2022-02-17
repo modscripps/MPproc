@@ -27,6 +27,9 @@ aqdpdir   = fullfile(mpdatadir,'aqdp','offload');
 
 %% List "raw" ascii files in aqdp/offload
 dd = dir(fullfile(aqdpdir,'DEF*.v1'));
+if isempty(dd)
+  dd = dir(fullfile(aqdpdir,'CNG*.v1'));
+end
 fprintf(1,'\n AQDP: Will process the following set of files:\n');
 for i = 1:length(dd)
   [~,nm,~] = fileparts(fullfile(aqdpdir,dd(i).name));

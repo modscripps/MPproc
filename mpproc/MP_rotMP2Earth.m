@@ -30,11 +30,31 @@ function [VE,Head,Headcor]=MP_rotMP2Earth(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_d
 % Head: (magnetic) heading from compass (in horizontal plane) (ccw from E)
 % Headcor: Head + compass bias + mag. dev. (true heading)
 %
+% From the McLane Moored Profiler manual rev E (Appendix D-4):
+% The Cartesian co-ordinate frame of the MMP is defined to have the +x-axis
+% pointing forward, the direction in which the sting of the ACM points. The
+% +y-axis points to port, the left side of the profiler. The +z-axis points
+% up, completing a right-handed Cartesian system. The first two numbers in
+% each ACM scan are TX and TY, the tilt angles of the x- and y-axes about
+% the y- and x-axes. When the ACM pressure housing, which contains the tilt
+% and compass modules, is properly oriented in the profiler, TX is the
+% pitch angle and TY is the roll angle. TX measures rotation about the
+% y-axis and is positive when the ACM sting tips up, that is when the
+% profiler tips backwards. (Note that this is backwards with respect to the
+% usual "right-hand rule" for rotations - thumb of right hand points in the
+% positive direction along the axis of rotation, fingers of right hand
+% indicated the positive direction of rotation.) Similarly, TY measures
+% rotation about the x- axis and is positive when the profiler tips to
+% starboard. (Note that this rotation is consistent with the "right-hand
+% rule".) The units of tilt are degrees. Full scale for both pitch and roll
+% is ±45°. Tilt values near zero indicate that the profiler is vertical.
+%
 % ~~~
 % Info on MMP Coordinate Frame:
 % +x is in direction of sting
-% +y is 90 deg to left of x,
-% + z is up through MMP (perpendicular to x and y)
+% +y is 90 deg to left of x (portside of instrument)
+% + z is up through MMP (perpendicular to x and y, forming a right handed
+% coordinate system)
 %
 % AP Original 6 Feb 2012
 % Updated:
@@ -45,10 +65,10 @@ function [VE,Head,Headcor]=MP_rotMP2Earth(aTx,aTy,aHx,aHy,aHz,compass_bias,mag_d
 % 17 May 2013 (AP) - Streamlined, fixed some bugs.
 %
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%%
 
 % PITCH==aTx;
-% ROLL==aTy;
+% ROLL ==aTy;
+% Same definition as for RDI ADCPs.
 
 [nr,nc]=size(VI);
 
@@ -58,45 +78,38 @@ end
 
 Np=nc;
 
+% Compass bias (from 8 point calibration) should already have been
+% interpolated onto direction vector.
 if length(compass_bias)==1
     compass_bias=compass_bias*ones(1,Np);
 end
-
-clear jj
 
 % make empty arrays
 VE=nan*ones(size(VI));
 Pc=nan*ones(size(aTx));
 Head=Pc;
-HeadTot=Pc;
+% HeadTot=Pc;
 Headcor=Pc;
-heading2=Pc;
-
-% hb=waitbar(0,'Im working on it!');
+% heading2=Pc;
 
 textprogressbar('Tilt Correction:         ');
 
-% If more than one data point, loop through all
+% Loop through all data points
 % (need to recalculate transformation matrix for each sample)
 for jj=1:Np
-    
-%     waitbar(jj/Np,hb)
     textprogressbar(jj/Np*100);
-    
-    %disp(['Working on ' num2str(jj) ' out of ' num2str(Np)])
+
     clear R Rroll Rpitch Rz atx aty head pitch roll H Hr Rh P Pc
     clear aty atx hx hy hz vi heading
     
     % get heading and compass for this sample
-    clear atx aty hx hy hz
     atx=aTx(jj); % pitch
     aty=aTy(jj); % roll
     hx =aHx(jj);
     hy =aHy(jj);
     hz =aHz(jj);
     
-    % get instrument-frame velocity
-    clear vi
+    % get instrument-frame velocityy
     vi=VI(:,jj);
     
     %~~~~ Roll (aTy) ~~~~
@@ -105,37 +118,38 @@ for jj=1:Np
     roll=-aty;
     
     % Rotation about x-axis (roll)
-    Rroll=[1 0 0 ;
-        0 cosd(roll) sind(roll) ;
-        0 -sind(roll) cosd(roll) ];
+%     Rroll=[1 0 0 ;
+%         0 cosd(roll) sind(roll) ;
+%         0 -sind(roll) cosd(roll) ];
+    Rroll=[cosd(roll) 0 sind(roll) ;
+        0 1 0;
+        -sind(roll) 0 cosd(roll) ];
     
     %~~~~ Pitch (aTx) ~~~~~
     %
-    atx=atx; % aTx is + if sting is tilted up.  We want to rotate the
+    % aTx is + if sting is tilted up.  We want to rotate the
     % MP coordinate system CCW to align with vertical, so we use aTx
     % Note the sign seems flipped here; that is because pitch convention is
     % opposite right-handed convention
-    
-    
     pitch=atx;
-    % Correct pitch for fixed sensor ??
-    pitchc=atand(tand(atx)*cosd(roll)); % from adcp coord. trans. pdf
     
+    % Correct pitch for fixed sensor??
+    pitchc=atand(tand(atx)*cosd(roll)); % from adcp coord. trans. pdf   
     % For angles less than ~10deg, this correction is very small.
     % At larger angles, the order of rotation and angle convention
     % used becomes important.
-    
-    %P=atx;
-    %Pc(jj)=pitch;
     
     % NOTE I think this gives same result as formula from RDI book (JM) F-7
     %   KA=sqrt(1 - (sind(atx)*sind(roll))^2 ) %
     %   pitch=asind( sind(atx)*cosd(roll)/KA)
     
     % Rotation about y-axis (pitch)
-    Rpitch=[cosd(pitch) 0 -sind(pitch) ;
-        0 1 0;
-        sind(pitch) 0 cosd(pitch) ];
+%     Rpitch=[cosd(pitch) 0 -sind(pitch) ;
+%         0 1 0;
+%         sind(pitch) 0 cosd(pitch) ];
+    Rpitch=[1 0 0 ;
+        0 cosd(pitch) -sind(pitch) ;
+        0 sind(pitch) cosd(pitch) ];
     
     % using 'corrected' pitch
     %     Rpitchc=[cosd(pitchc) 0 -sind(pitchc) ;
